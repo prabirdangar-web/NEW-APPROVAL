@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROPA-19 Complete School Administration & Document Generator</title>
+    <style>
+        :root {
+            --primary-color: #0b2545;
+            --secondary-color: #134074;
+            --light-bg: #f4f6f9;
+            --border-color: #cbd5e1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin-top: 25px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #4a5568;
+            font-size: 0.88rem;
+        }
+
+        input, select, textarea {
+            padding: 8px 11px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.92rem;
+            outline: none;
+            font-family: inherit;
+        }
+
+        input:disabled, select:disabled {
+            background-color: #e2e8f0;
+            color: #64748b;
+            cursor: not-allowed;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(19, 64, 116, 0.15);
+        }
+
+        .qual-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .qual-table th {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            padding: 8px 10px;
+            font-size: 0.85rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        .qual-table td {
+            padding: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .qual-table input {
+            width: 95%;
+            padding: 5px;
+        }
+
+        .btn-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 11px 18px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s;
+        }
+
+        .btn-generate { background-color: var(--secondary-color); color: white; }
+        .btn-generate:hover { background-color: var(--primary-color); }
+        .btn-print-all { background-color: #4f46e5; color: white; }
+        .btn-print-all:hover { background-color: #4338ca; }
+        .btn-print-di { background-color: #0284c7; color: white; }
+        .btn-print-di:hover { background-color: #0369a1; }
+        .btn-print-nonlit { background-color: #0d9488; color: white; }
+        .btn-print-nonlit:hover { background-color: #0f766e; }
+        .btn-print-iosms { background-color: #7c3aed; color: white; }
+        .btn-print-iosms:hover { background-color: #6d28d9; }
+        .btn-print-jr { background-color: #2563eb; color: white; }
+        .btn-print-jr:hover { background-color: #1d4ed8; }
+        .btn-print-app { background-color: #d97706; color: white; }
+        .btn-print-app:hover { background-color: #b45309; }
+        .btn-print-sb { background-color: #059669; color: white; }
+        .btn-print-sb:hover { background-color: #047857; }
+        .btn-print-hoi { background-color: #8b5cf6; color: white; }
+        .btn-print-hoi:hover { background-color: #7c3aed; }
+
+        .output-box {
+            background-color: #eef4f8;
+            padding: 12px 15px;
+            border-left: 5px solid var(--secondary-color);
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            font-size: 0.92rem;
+        }
+
+        .rule-badge {
+            display: inline-block;
+            background-color: #fef3c7;
+            color: #92400e;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 5px;
+            border: 1px solid #fde68a;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.92rem;
+        }
+
+        table.data-table th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 12px;
+            font-weight: 600;
+        }
+
+        table.data-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .live-preview-box {
+            background: #fff;
+            border: 2px dashed #94a3b8;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 25px;
+        }
+
+        /* Printable Layout CSS */
+        .print-view { display: none; }
+
+        @media print {
+            body * { visibility: hidden; }
+            .no-print { display: none !important; }
+            .print-view, .print-view * { visibility: visible; }
+            
+            .print-view {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                font-family: 'Times New Roman', Times, serif;
+                color: #000;
+                background: #fff;
+            }
+
+            .page-break { page-break-after: always; break-after: page; }
+
+            .doc-container {
+                padding: 25px 35px;
+                font-size: 0.92rem;
+                line-height: 1.4;
+            }
+
+            .doc-header {
+                text-align: center;
+                font-weight: bold;
+                text-transform: uppercase;
+                margin-bottom: 8px;
+            }
+
+            table.official-tbl {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 5px;
+            }
+
+            table.official-tbl th, table.official-tbl td {
+                border: 1px solid #000;
+                padding: 4px 6px;
+                vertical-align: top;
+            }
+
+            table.official-tbl th {
+                background-color: #f2f2f2 !important;
+                text-align: center;
+                font-weight: bold;
+            }
+
+            .text-center { text-align: center; }
+            .bold { font-weight: bold; }
+            
+            ol.enclosure-list {
+                margin-top: 5px;
+                padding-left: 20px;
+                font-size: 0.82rem;
+                line-height: 1.25;
+            }
+            ol.enclosure-list li {
+                margin-bottom: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container no-print">
+    <h2>ROPA-19 Complete School Administration & Document Generator</h2>
+    
+    <!-- SECTION 1: ADMINISTRATION & GENDER -->
+    <h3>1. Administration, Gender & District Info</h3>
+    <div class="grid-inputs">
+        <div class="form-group">
+            <label for="employeeGender">Gender (Sex-Wise Pronouns)</label>
+            <select id="employeeGender" onchange="updateAllForms();">
+                <option value="female" selected>Female (Daughter Of / She / Her)</option>
+                <option value="male">Male (Son Of / He / His)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="hoiStatus">Current HOI Status</label>
+            <select id="hoiStatus" onchange="updateAllForms();">
+                <option value="Teacher-In-Charge" selected>Teacher-In-Charge</option>
+                <option value="Headmaster">Headmaster</option>
+                <option value="Headmistress">Headmistress</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="adminStatus">Current Administration Status</label>
+            <select id="adminStatus" onchange="updateAllForms();">
+                <option value="Administrator" selected>The Administrator</option>
+                <option value="Managing Committee">Managing Committee / President</option>
+                <option value="Ad-hoc Committee">Ad-hoc Committee</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="diDistrict">DI Office District</label>
+            <input type="text" id="diDistrict" value="Bankura" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="iosmsCode">IOSMS Employee Code</label>
+            <input type="text" id="iosmsCode" value="NCIZ8216" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="hoiForwardingMemo">HOI Forwarding Memo No & Date</label>
+            <input type="text" id="hoiForwardingMemo" value="125/2021 Dated 28.09.2021" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="appType">Appointment Mode</label>
+            <select id="appType" onchange="handleAppTypeChange(); updateAllForms();">
+                <option value="fresh" selected>Fresh Appointment (Direct Entry under ROPA-19)</option>
+                <option value="existing">In-Service / Transfer (ROPA-19 Progression)</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- SECTION 2: EMPLOYEE & SCHOOL PARTICULARS -->
+    <h3>2. School & Teacher Basic Particulars</h3>
+    <div class="grid-inputs">
+        <div class="form-group">
+            <label for="schoolName">Name of School</label>
+            <input type="text" id="schoolName" value="Taldangra Fulmati High School[H.S.]" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="schoolAddress">School Address & Sub-Div / Dist / PIN</label>
+            <input type="text" id="schoolAddress" value="Vill- Taldangra, P.O.- Taldangra, Sub Div : Khatra , District- Bankura, Pin- 722152" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="staffName">Name of Teacher</label>
+            <input type="text" id="staffName" value="Swapna Mahanti" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="fatherName">Father's / Husband's Name</label>
+            <input type="text" id="fatherName" value="Ramkrishna Mahanti" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" value="1978-10-12" onchange="calculateDOR(); updateAllForms();">
+        </div>
+        <div class="form-group">
+            <label for="doj">Date of Joining (DOJ)</label>
+            <input type="date" id="doj" value="2021-02-24" onchange="calculateDOR(); updateAllForms();">
+        </div>
+        <div class="form-group">
+            <label for="joiningTime">Joining Time</label>
+            <input type="text" id="joiningTime" value="11:00 A.M." oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="ageOnDoj">Calculated Age as on DOJ</label>
+            <input type="text" id="ageOnDoj" value="42 Y - 4 M - 12 D" oninput="updateAllForms()">
+        </div>
+    </div>
+
+    <div class="output-box" id="dorOutput">
+        <strong>Date of Retirement (DOR):</strong> Loading...
+    </div>
+
+    <!-- SECTION 3: VACANCY REASON -->
+    <h3>3. Vacancy Reason & Replaced Employee Details</h3>
+    <div class="grid-inputs">
+        <div class="form-group">
+            <label for="vacancyType">Vacancy Reason / Type</label>
+            <select id="vacancyType" onchange="handleVacancyTypeChange(); updateAllForms();">
+                <option value="transfer" selected>Transfer</option>
+                <option value="resignation">Resignation</option>
+                <option value="retirement">Retirement</option>
+                <option value="death">Demise / Death-in-Harness</option>
+                <option value="fresh_post">Fresh Sanctioned Post</option>
+                <option value="manual">Other (Manual Custom Entry)</option>
+            </select>
+        </div>
+        <div class="form-group" id="replacedNameGroup">
+            <label for="replacedStaffName">Replaced Employee Name</label>
+            <input type="text" id="replacedStaffName" value="Tushar Kanti Tapadar" oninput="updateAllForms()">
+        </div>
+        <div class="form-group" id="replacedDetailsGroup">
+            <label for="replacedStaffDetails">Status / Date Details</label>
+            <input type="text" id="replacedStaffDetails" value="Resigned on 18.12.2019 [a.n.]" oninput="updateAllForms()">
+        </div>
+        <div class="form-group" id="manualVacancyGroup" style="display:none; grid-column: span 2;">
+            <label for="manualVacancyText">Custom Vacancy Narrative (Manual Text)</label>
+            <input type="text" id="manualVacancyText" value="Tushar Kanti Tapadar ; Resigned on 18.12.2019 [a.n.]" oninput="updateAllForms()">
+        </div>
+    </div>
+
+    <!-- SECTION 4: RESIDENTIAL ADDRESS -->
+    <h3>4. Residence Particulars</h3>
+    <div class="grid-inputs">
+        <div class="form-group">
+            <label for="resVillage">Village / Street</label>
+            <input type="text" id="resVillage" value="SRIPALLY BANKURA" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="resPO">Post Office (P.O.)</label>
+            <input type="text" id="resPO" value="KENDUADIHI" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="resPS">Police Station (P.S.)</label>
+            <input type="text" id="resPS" value="BANKURA" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="resDistrict">District</label>
+            <input type="text" id="resDistrict" value="BANKURA" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="resPIN">PIN Code</label>
+            <input type="text" id="resPIN" value="722102" oninput="updateAllForms()">
+        </div>
+    </div>
+
+    <!-- SECTION 5: ROPA-19 PAY PARAMETERS, DESIGNATION, ACADEMIC GROUP, LEVEL & MEDIUM -->
+    <h3>5. ROPA-19 Pay Matrix Parameters, Designation, Group & Level</h3>
+    <div class="grid-inputs">
+        <div class="form-group">
+            <label for="gradePay">Pay Scale / Grade Pay</label>
+            <select id="gradePay" onchange="autoFetchBasic(); updateAllForms();">
+                <option value="1700">Level 1 (GP 1700)</option>
+                <option value="1800">Level 2 (GP 1800)</option>
+                <option value="2600">Level 3 (GP 2600)</option>
+                <option value="2900">Level 7 (GP 2900)</option>
+                <option value="3900">Level 10 (GP 3900)</option>
+                <option value="4100">Level 11 (GP 4100)</option>
+                <option value="4400">Level 12 (GP 4400)</option>
+                <option value="4700">Level 14 (GP 4700)</option>
+                <option value="4800" selected>Level 15 (GP 4800)</option>
+                <option value="5400">Level 16 (GP 5400)</option>
+            </select>
+        </div>
+        <div class="form-group" id="optionDateGroup" style="display:none;">
+            <label for="optionDate">Date of Option</label>
+            <input type="date" id="optionDate" value="2016-01-01" onchange="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="basicPay">Basic Pay (₹)</label>
+            <input type="number" id="basicPay" value="60800" oninput="calculateAllowances(); updateAllForms();">
+        </div>
+        <div class="form-group">
+            <label for="daPercent">DA % Input</label>
+            <input type="number" id="daPercent" value="18" step="0.1" oninput="calculateAllowances(); updateAllForms();">
+        </div>
+        <div class="form-group">
+            <label for="daAmt">DA Amount (₹) <small>(Auto)</small></label>
+            <input type="number" id="daAmt" value="10944" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="hraAmt">HRA Amount (₹)</label>
+            <input type="number" id="hraAmt" value="7296" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="maAmt">Medical Allowance (₹)</label>
+            <input type="number" id="maAmt" value="500" oninput="updateAllForms()">
+        </div>
+
+        <!-- DESIGNATION DROPDOWN -->
+        <div class="form-group">
+            <label for="designationDD">Designation</label>
+            <select id="designationDD" onchange="handleDesignationChange(); updateAllForms();">
+                <option value="Assistant Teacher" selected>Assistant Teacher</option>
+                <option value="Clerk">Clerk</option>
+                <option value="Group-D Staff">Group-D Staff</option>
+                <option value="Headmaster">Headmaster</option>
+                <option value="Headmistress">Headmistress</option>
+                <option value="Assistant Headmaster (AHM)">AHM</option>
+                <option value="Librarian">Librarian</option>
+                <option value="Teacher-In-Charge">Teacher-In-Charge</option>
+                <option value="manual">Other (Manual Custom Entry)</option>
+            </select>
+        </div>
+        <div class="form-group" id="designationManualGroup" style="display:none;">
+            <label for="designationManual">Custom Designation Text</label>
+            <input type="text" id="designationManual" value="Assistant Teacher" oninput="updateAllForms()">
+        </div>
+
+        <!-- ACADEMIC GROUP DROPDOWN -->
+        <div class="form-group">
+            <label for="academicGroupDD">Academic Group</label>
+            <select id="academicGroupDD" onchange="handleAcademicGroupChange(); updateAllForms();">
+                <option value="Language Group" selected>Language Group</option>
+                <option value="Science & Math Group">Science & Math Group</option>
+                <option value="Social Science Group">Social Science Group</option>
+                <option value="Higher Secondary Section">Higher Secondary Section</option>
+                <option value="WE&PE Group">WE&PE Group</option>
+                <option value="Normal">Normal</option>
+                <option value="Upper Primary Level">Upper Primary Level</option>
+                <option value="Secondary [IX-X]">Secondary [IX-X]</option>
+                <option value="Higher Secondary Level">Higher Secondary Level</option>
+                <option value="Not Applicable">Not Applicable</option>
+                <option value="manual">Other (Manual Custom Entry)</option>
+            </select>
+        </div>
+        <div class="form-group" id="academicGroupManualGroup" style="display:none;">
+            <label for="academicGroupManual">Custom Academic Group Text</label>
+            <input type="text" id="academicGroupManual" value="Language Group" oninput="updateAllForms()">
+        </div>
+
+        <div class="form-group">
+            <label for="subjectName">Subject</label>
+            <input type="text" id="subjectName" value="Physics" oninput="updateAllForms()">
+        </div>
+        
+        <!-- ACADEMIC SECTION DROPDOWN -->
+        <div class="form-group">
+            <label for="academicSectionDD">Academic Section / Level</label>
+            <select id="academicSectionDD" onchange="handleAcademicSectionChange(); updateAllForms();">
+                <option value="Upper Primary Level" selected>Upper Primary Level</option>
+                <option value="Secondary [IX-X]">Secondary [IX-X]</option>
+                <option value="Higher Secondary Level">Higher Secondary Level</option>
+                <option value="Normal">Normal</option>
+                <option value="Not Applicable">Not Applicable</option>
+                <option value="manual">Other (Manual Custom Entry)</option>
+            </select>
+        </div>
+        <div class="form-group" id="academicSectionManualGroup" style="display:none;">
+            <label for="academicSectionManual">Custom Academic Section Text</label>
+            <input type="text" id="academicSectionManual" value="Upper Primary Level" oninput="updateAllForms()">
+        </div>
+
+        <!-- MEDIUM DROPDOWN -->
+        <div class="form-group">
+            <label for="mediumLangDD">Medium of Instruction</label>
+            <select id="mediumLangDD" onchange="handleMediumLangChange(); updateAllForms();">
+                <option value="Bengali Medium" selected>Bengali Medium</option>
+                <option value="Santali Medium">Santali Medium</option>
+                <option value="English Medium">English Medium</option>
+                <option value="Hindi Medium">Hindi Medium</option>
+                <option value="Urdu Medium">Urdu Medium</option>
+                <option value="manual">Other (Manual Custom Entry)</option>
+            </select>
+        </div>
+        <div class="form-group" id="mediumLangManualGroup" style="display:none;">
+            <label for="mediumLangManual">Custom Medium Text</label>
+            <input type="text" id="mediumLangManual" value="Bengali Medium" oninput="updateAllForms()">
+        </div>
+    </div>
+
+    <!-- SECTION 6: ORDERS & MC RESOLUTION DETAILS -->
+    <h3>6. Orders, SSC Recommendations & MC Resolution Details</h3>
+    <div class="grid-inputs">
+        <div class="form-group">
+            <label for="sscMemo">WB Central SSC Recommendation Memo No & Date</label>
+            <input type="text" id="sscMemo" value="04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="wbbseMemo">WBBSE Appointment Order Memo No & Date</label>
+            <input type="text" id="wbbseMemo" value="WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="adminOrderNo">Administrator Order / MC Resolution No & Date</label>
+            <input type="text" id="adminOrderNo" value="Administrator Order No. 209 dated 27.09.2021" oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="diMemo">DI Approval / Prior Permission Memo No & Date</label>
+            <input type="text" id="diMemo" value="1711/S &Dated," oninput="updateAllForms()">
+        </div>
+        <div class="form-group">
+            <label for="prevExp">Previous Experience (If In-Service)</label>
+            <input type="text" id="prevExp" value="SARENGA GIRLS H S, P.O.: SARENGA, Dist.: BANKURA ; 24-02-2012 TO 23-02-2021" oninput="updateAllForms()">
+        </div>
+    </div>
+
+    <!-- SECTION 7: ACADEMIC QUALIFICATIONS -->
+    <h3>7. Academic Qualifications Data Entry</h3>
+    <table class="qual-table">
+        <thead>
+            <tr>
+                <th>Examination</th>
+                <th style="width: 110px;">Year Passed</th>
+                <th style="width: 120px;">Division / Class</th>
+                <th>Subjects Taken</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Madhyamik / Matric / S.F.</td>
+                <td><input type="text" id="q1_yr" value="1994" oninput="updateAllForms()"></td>
+                <td><input type="text" id="q1_div" value="I" oninput="updateAllForms()"></td>
+                <td><input type="text" id="q1_sub" value="Beng,Eng,Math,PSC,LSC,Hist,Geo,BIO" oninput="updateAllForms()"></td>
+            </tr>
+            <tr>
+                <td>Higher Secondary</td>
+                <td><input type="text" id="q2_yr" value="1997" oninput="updateAllForms()"></td>
+                <td><input type="text" id="q2_div" value="II" oninput="updateAllForms()"></td>
+                <td><input type="text" id="q2_sub" value="BNGA,ENGB,CHEM,MATH,PHYS,BIOS" oninput="updateAllForms()"></td>
+            </tr>
+            <tr>
+                <td>B.A. / B.Sc. / B.Com.</td>
+                <td><input type="text" id="q3_yr" value="2001" oninput="updateAllForms()"></td>
+                <td><input type="text" id="q3_div" value="II" oninput="updateAllForms()"></td>
+                <td><input type="text" id="q3_sub" value="PHYSICS(H), CHEM,MATH" oninput="updateAllForms()"></td>
+            </tr>
+            <tr>
+                <td>M.A. / M.Sc. / M.Com.</td>
+                <td><input type="text" id="q4_yr" value="2007" oninput="updateAllForms()"></td>
+                <td><input type="text" id="q4_div" value="II" oninput="updateAllForms()"></td>
+                <td><input type="text" id="q4_sub" value="PHYSICS" oninput="updateAllForms()"></td>
+            </tr>
+            <tr>
+                <td>B.Ed. / Training Certificate</td>
+                <td><input type="text" id="q5_yr" value="2015" oninput="updateAllForms()"></td>
+                <td><input type="text" id="q5_div" value="I" oninput="updateAllForms()"></td>
+                <td><input type="text" id="q5_sub" value="Prin.&Prac. Of Edn.,Edn Psy,Meth. Of Teaching & others" oninput="updateAllForms()"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="btn-group">
+        <button type="button" class="btn-generate" onclick="updateAllForms()">Refresh All Documents</button>
+        <button type="button" class="btn-print-all" onclick="printAllDocuments()">🖨️ Print All Documents Batch</button>
+        <button type="button" class="btn-print-hoi" onclick="printHoiReportOnly()">Print HOI Report & Order/MC Res</button>
+        <button type="button" class="btn-print-di" onclick="printDiLetterOnly()">Print DI Letter Only</button>
+        <button type="button" class="btn-print-nonlit" onclick="printNonLitCertOnly()">Print Non-Litigation Cert Only</button>
+        <button type="button" class="btn-print-iosms" onclick="printIosmsLetterOnly()">Print IOSMS Profile Letter Only</button>
+        <button type="button" class="btn-print-jr" onclick="printJoiningReportOnly()">Print Joining Report Only</button>
+        <button type="button" class="btn-print-app" onclick="printApprovalFormOnly()">Print Approval Form Only</button>
+        <button type="button" class="btn-print-sb" onclick="printServiceBookOnly()">Print Service Book Entry Only</button>
+    </div>
+
+    <!-- SCREEN PREVIEW: INCREMENT TIMELINE TABLE -->
+    <h3>Generated Pay Matrix Progression Timeline</h3>
+    <div id="ropa6MonthRuleNote" class="rule-badge"></div>
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Effective Date</th>
+                    <th>Date of Termination (DOT)</th>
+                    <th>Event / Reason</th>
+                    <th>Level</th>
+                    <th>Cell</th>
+                    <th>Basic Pay (₹)</th>
+                </tr>
+            </thead>
+            <tbody id="payTableBody">
+                <tr>
+                    <td colspan="6" style="text-align: center; color: #888; padding: 20px;">Generating data...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- LIVE PREVIEW BOXES -->
+    <div class="live-preview-box">
+        <h3>Live Certificate Regarding Non-Litigation of Post Preview</h3>
+        <div id="screenNonLitPreview"></div>
+    </div>
+
+    <div class="live-preview-box">
+        <h3>Live IOSMS Profile Acceptance Letter Preview</h3>
+        <div id="screenIosmsPreview"></div>
+    </div>
+</div>
+
+<!-- ==================== PRINT CONTAINER 1: DI SUBMISSION LETTER ==================== -->
+<div id="printDiLetterArea" class="print-view page-break">
+    <div class="doc-container">
+        <p style="margin: 0;">To</p>
+        <p style="margin: 0; font-weight: bold;">The District Inspector of Schools (S.E.), <span class="printDiDistrict">Bankura</span>.</p>
+        <p style="margin: 0 0 15px 0;">Post & District. <span class="printDiDistrict">Bankura</span>.</p>
+
+        <p class="bold" style="font-size: 0.98rem; margin-bottom: 15px; text-decoration: underline;">
+            Subject: Approval of appointment to the post of <span class="printDesignation">Assistant Teacher</span> in favour of <span class="printAppName">Swapna Mahanti</span> w.e.f. <span class="printAppDoj">24-02-2021</span>
+        </p>
+
+        <p style="font-size: 0.98rem; font-weight: bold; margin-bottom: 12px;">Sir,</p>
+
+        <p style="text-align: justify; text-indent: 30px; line-height: 1.5; margin-bottom: 12px;">
+            In connection with the subject stated above I do hereby submit the necessary papers for approval of appointment in favour of <strong class="printAppName">Swapna Mahanti</strong> w.e.f. <strong class="printAppDoj">24-02-2021</strong> who has been appointed to the post of <strong class="printDesignation">Assistant Teacher</strong> in <span class="printAcademicGroup">Language Group</span> in Subject -<span class="printSubjectName">Physics</span> ,Academic Section: <span class="printAcademicSection">Upper Primary Level</span> in <span class="printMediumLang">Bengali Medium</span> against a Permanent post ; <span class="printVacancyFormattedClause">consequent upon the transfer of Tushar Kanti Tapadar ; Resigned on 18.12.2019 [a.n.]</span> .
+        </p>
+
+        <p style="text-align: justify; text-indent: 30px; line-height: 1.5; margin-bottom: 12px;">
+            It may be mentioned for your kind information that <span class="printPronounSubjCap">She</span> has been appointed in reference with the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span> .
+        </p>
+
+        <p style="text-align: justify; text-indent: 30px; line-height: 1.5; margin-bottom: 15px;">
+            It also may be mentioned for your kind information that <span class="printPronounSubj">she</span> has joined in this school to the said post on <strong class="printAppDoj">24-02-2021</strong> at <strong class="printJoiningTime">11:00 A.M.</strong> and <span class="printPronounPoss">her</span> joining has been accepted by <span class="printAdminAuthorityWithArticle">the Administrator</span> Vide <span class="printAdminOrderNo">Administrator Order No. 209 dated 27.09.2021</span> on and from <strong class="printAppDoj">24-02-2021</strong> .
+        </p>
+
+        <p style="text-align: justify; margin-bottom: 25px;">
+            You are requested for taking necessary arrangements in this regard at your earliest.
+        </p>
+
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <div>
+                <p>With Thanks.</p>
+            </div>
+            <div class="text-center" style="width: 50%;">
+                <p>Yours faithfully,</p>
+                <br><br>
+                <p style="margin:0;">--------------------------------------------------</p>
+                <p style="margin:0; font-weight:bold;"><span class="printHoiDesignation">Teacher-In-Charge</span></p>
+                <p style="margin:0; font-size:0.85rem;"><span class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</span></p>
+            </div>
+        </div>
+
+        <div style="border-top: 1px solid #000; padding-top: 8px; margin-top: 10px;">
+            <p style="margin: 0 0 5px 0; font-weight: bold; text-decoration: underline;">Enclosures:</p>
+            <ol class="enclosure-list" style="margin: 0; padding-left: 22px;">
+                <li>Forwarding Letter of HOI. (having Memo No. & Date: <span class="printHoiForwardingMemo">125/2021 Dated 28.09.2021</span>)</li>
+                <li>Approval format duly filled up & signed (in Duplicate)</li>
+                <li>Photo copy of Recommendation letter duly attested. (School's Copy)</li>
+                <li>Photo copy of Recommendation letter duly attested (Candidate's Copy)</li>
+                <li>Photo copy of Prior Permission issued by D.I./S(SE) <span class="printDiDistrict">Bankura</span>.</li>
+                <li>Certificate on verification of documents of the candidate.</li>
+                <li>Copy of Appointment letter issued by competent authority duly attested by HOI.</li>
+                <li>M.C. Resolution duly attested by HOI for acceptance of Joining of new employee.</li>
+                <li>Joining report of new employee duly accepted.</li>
+                <li>(a) Academic & professional qualification marksheets & Certificates of new employee.<br>(b) TET-Pass Certificate.</li>
+                <li>Copy of P.P.O./Approval Memo of the teacher in whose place/Post sanctioning Memo against which the teacher joined.</li>
+                <li>M.C. Validity Certificate.</li>
+                <li>No litigation Certificate.</li>
+                <li>Caste Certificate/PH certificate(if applicable)</li>
+                <li>Current Staff Pattern.</li>
+                <li>Photo copy of 100 point Roster.</li>
+                <li>Proof of Identity & address of the employee.</li>
+                <li>Photo copy of AD./ Postal Receipt (as a proof of receipt of Appointment Letter by the recommended candidate)</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== PRINT CONTAINER 2: CERTIFICATE REGARDING NON LITIGATION ==================== -->
+<div id="printNonLitCertArea" class="print-view page-break">
+    <div class="doc-container" style="padding-top: 60px;">
+        <p class="text-center bold" style="font-size: 1.15rem; margin-bottom: 12px; text-decoration: underline;">To whom it may Concern:</p>
+        <p class="text-center bold" style="font-size: 1.25rem; margin-bottom: 40px; text-decoration: underline;">Certificate regarding non litigation of post</p>
+
+        <p style="font-size: 1.05rem; font-weight: bold; margin-bottom: 25px;">Certified that-</p>
+
+        <p style="text-align: justify; line-height: 1.8; font-size: 1.1rem; text-indent: 40px; margin-bottom: 120px;">
+            There is no court case or any type of litigations against the post of <strong class="printDesignation">Assistant Teacher</strong> duly appointed in subject <strong class="printSubjectName">Physics</strong> , Academic Section-<strong class="printAcademicSection">Upper Primary Level</strong> in <strong class="printMediumLang">Bengali Medium</strong> for which the application is being submitted for approval of appointment in favour of <strong class="printAppName">Swapna Mahanti</strong> .
+        </p>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 80px;">
+            <div class="text-center" style="width: 50%;">
+                <p style="margin:0;">--------------------------------------------------</p>
+                <p style="margin:0; font-weight:bold; font-size: 1.05rem;"><span class="printHoiDesignation">Headmaster / Headmistress / Teacher-In-Charge</span></p>
+                <p style="margin:0; font-size:0.95rem;"><span class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== PRINT CONTAINER 3: IOSMS PROFILE ACCEPTANCE REQUEST LETTER ==================== -->
+<div id="printIosmsLetterArea" class="print-view page-break">
+    <div class="doc-container">
+        <p style="margin: 0;">To</p>
+        <p style="margin: 0; font-weight: bold;">The District Inspector of Schools (S.E.), <span class="printDiDistrict">Bankura</span>.</p>
+        <p style="margin: 0 0 20px 0;">Post & District. <span class="printDiDistrict">Bankura</span>.</p>
+
+        <p class="text-center bold" style="font-size: 1.05rem; margin-bottom: 8px; text-decoration: underline;">
+            Request for acceptance of Profile of <span class="printAppName">Swapna Mahanti</span>;<span class="printDesignation">Assistant Teacher</span>
+        </p>
+        <p class="text-center bold" style="font-size: 1.1rem; margin-bottom: 25px; text-decoration: underline;">
+            Ref : iosms Employee Code : <span class="printIosmsCode">NCIZ8216</span>
+        </p>
+
+        <p style="font-size: 1rem; font-weight: bold; margin-bottom: 15px;">Sir,</p>
+
+        <p style="text-align: justify; text-indent: 30px; line-height: 1.6; margin-bottom: 15px;">
+            In connection with the subject stated above I beg to inform you that <strong class="printAppName">Swapna Mahanti</strong> has been appointed to the post of <strong class="printDesignation">Assistant Teacher</strong> in <span class="printAcademicGroup">Language Group</span> in Subject -<span class="printSubjectName">Physics</span> ,Academic Section: <span class="printAcademicSection">Upper Primary Level</span> in <span class="printMediumLang">Bengali Medium</span> against a Permanent post in this school ; <span class="printVacancyFormattedClause">consequent upon the transfer of Tushar Kanti Tapadar ; Resigned on 18.12.2019 [a.n.]</span>. It may be mentioned for your kind information that <span class="printPronounSubj">she</span> has joined in this school to the said post on <strong class="printAppDoj">24-02-2021</strong> at <strong class="printJoiningTime">11:00 A.M.</strong> and <span class="printPronounPoss">her</span> joining has been accepted by <span class="printAdminAuthorityWithArticle">the Administrator</span> Vide <span class="printAdminOrderNo">Administrator Order No. 209 dated 27.09.2021</span> .
+        </p>
+
+        <p style="text-align: justify; text-indent: 30px; line-height: 1.6; margin-bottom: 15px;">
+            It also may be mentioned for your kind information that <span class="printPronounSubjCap">She</span> has been appointed In reference with the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span> .
+        </p>
+
+        <p style="text-align: justify; text-indent: 30px; line-height: 1.6; margin-bottom: 30px;">
+            Now you are requested for taking necessary arrangements so as to accept, approve and finalize the profile of <strong class="printAppName">Swapna Mahanti</strong>;<strong class="printDesignation">Assistant Teacher</strong> Ref : iosms Employee Code : <strong class="printIosmsCode">NCIZ8216</strong> which has been duly transferred from <span class="printPronounPoss">her</span> earlier school .
+        </p>
+
+        <div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
+            <div>
+                <p>With Thanks.</p>
+            </div>
+            <div class="text-center" style="width: 50%;">
+                <p>Yours faithfully,</p>
+                <br><br>
+                <p style="margin:0;">--------------------------------------------------</p>
+                <p style="margin:0; font-weight:bold;"><span class="printHoiDesignation">Teacher-In-Charge</span></p>
+                <p style="margin:0; font-size:0.85rem;"><span class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</span></p>
+            </div>
+        </div>
+
+        <div style="border-top: 1px solid #000; padding-top: 10px; margin-top: 20px;">
+            <p style="margin: 0 0 5px 0; font-weight: bold; text-decoration: underline;">Enclosures:</p>
+            <p style="margin: 0; padding-left: 15px;">1. Approval of Appointment of <span class="printAppName">Swapna Mahanti</span>;<span class="printDesignation">Assistant Teacher</span></p>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== PRINT CONTAINER 4: JOINING REPORT ==================== -->
+<div id="printJoiningReportArea" class="print-view page-break">
+    <div class="doc-container">
+        <p style="margin: 0;">To</p>
+        <p style="margin: 0; font-weight: bold;"><span class="printAdminAuthorityWithArticle">The Administrator</span></p>
+        <p style="margin: 0;">Through</p>
+        <p style="margin: 0;">The <span class="printHoiDesignation">Teacher-In-Charge</span></p>
+        <p style="margin: 0; font-weight: bold;"><span class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</span></p>
+        <p style="margin: 0 0 20px 0;"><span class="printAppSchoolAddress">Vill- Taldangra, P.O.- Taldangra, Sub Div : Khatra , District- Bankura, Pin- 722152</span></p>
+
+        <p class="text-center bold" style="font-size: 1.05rem; margin-bottom: 25px; text-decoration: underline;">
+            Subject: - Joining Report for appointment to the post of <span class="printDesignation">Assistant Teacher</span>
+        </p>
+
+        <p style="font-size: 1rem; font-weight: bold; margin-bottom: 15px;">Sir/Madam,</p>
+
+        <p style="text-align: justify; text-indent: 30px; line-height: 1.6; margin-bottom: 20px;">
+            In reference with the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span> I, <strong class="printAppName">Swapna Mahanti</strong> ; <span class="printRelTerm">Daughter Of</span> <span class="printAppFather">Ramkrishna Mahanti</span> Village : <span class="printAppVill">SRIPALLY BANKURA</span> P.O.: <span class="printAppPO">KENDUADIHI</span> P.S.: <span class="printAppPS">BANKURA</span> ; District : <span class="printAppDist">BANKURA</span> Pin : <span class="printAppPIN">722102</span>, joined in <strong class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</strong> ; <span class="printAppSchoolAddress">Vill- Taldangra, P.O.- Taldangra, Sub Div : Khatra , District- Bankura, Pin- 722152</span> to the post of <strong class="printDesignation">Assistant Teacher</strong> in <span class="printAcademicGroup">Language Group</span> in Subject - <span class="printSubjectName">Physics</span>, Academic Section: <span class="printAcademicSection">Upper Primary Level</span> in <span class="printMediumLang">Bengali Medium</span> on <strong class="printAppDoj">24-02-2021</strong> at <strong class="printJoiningTime">11:00 A.M.</strong> against a Permanent post.
+        </p>
+
+        <p style="text-align: justify; text-indent: 30px; line-height: 1.6; margin-bottom: 30px;">
+            I will perform my duties sincerely, honestly and to the best of my abilities. This may kindly be treated as my Joining Report.
+        </p>
+
+        <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+            <div>
+                <p>With Thanks.</p>
+            </div>
+            <div class="text-center" style="width: 50%;">
+                <p>Yours faithfully,</p>
+                <br><br>
+                <p style="margin:0;">--------------------------------------------------</p>
+                <p style="margin:0; font-weight:bold; text-transform:uppercase;"><span class="printAppName">Swapna Mahanti</span></p>
+                <p style="margin:0; font-size: 0.8rem; text-transform:uppercase;"><span class="printRelTermUpper">DAUGHTER OF</span> <span class="printAppFather">Ramkrishna Mahanti</span></p>
+                <p style="margin:0; font-size: 0.8rem; text-transform:uppercase;">Village : <span class="printAppVill">SRIPALLY BANKURA</span> P.O.: <span class="printAppPO">KENDUADIHI</span> P.S.: <span class="printAppPS">BANKURA</span></p>
+                <p style="margin:0; font-size: 0.8rem; text-transform:uppercase;">DISTRICT : <span class="printAppDist">BANKURA</span> PIN : <span class="printAppPIN">722102</span></p>
+            </div>
+        </div>
+
+        <div style="margin-top: 50px;">
+            <p style="margin: 4px 0;">Place ___________________</p>
+            <p style="margin: 4px 0;">Date ___________________</p>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== PRINT CONTAINER 5: FULL 13-POINT APPROVAL FORM ==================== -->
+<div id="printApprovalArea" class="print-view page-break">
+    <div class="doc-container">
+        <div class="doc-header" style="font-size: 1rem;">
+            PARTICULARS REQUIRED IN CONNECTION WITH THE APPROVAL OF APPOINTMENT OF TEACHERS IN GOVERNMENT AIDED/SPONSORED HIGH/HIGHER SECONDARY SCHOOL
+        </div>
+        <div class="text-center" style="font-size: 0.8rem; margin-bottom: 5px;">
+            (To be furnished in triplicate supported by a copy of the resolution of the Managing Committee)
+        </div>
+        <div class="text-center bold" style="font-size: 0.95rem; margin-bottom: 8px;">
+            Name of the School : <span class="printAppSchoolName"></span>
+        </div>
+        <div class="text-center" style="font-size: 0.82rem; margin-bottom: 12px;">
+            <span class="printAppSchoolAddress"></span>
+        </div>
+
+        <table class="official-tbl">
+            <tr>
+                <td style="width: 42%;">
+                    <strong>1</strong> (a) Whether a case of appointment in a permanent vacancy consequent upon the retirement / resignation / transfer of a teacher<br><br>
+                    (b) Whether a case of temporary arrangement in leave or deputation vacancy<br>
+                    (c) Whether a case of confirmation.<br>
+                    (d) Whether a case of strengthening the staff.
+                </td>
+                <td>
+                    : Permanent ; <span class="printVacancyFormattedClause"></span><br><br><br>
+                    : -----------------X-----------------<br>
+                    : -----------------NO----------------<br>
+                    : -----------------NO----------------
+                </td>
+            </tr>
+            <tr>
+                <td><strong>2</strong> Name of the Teacher</td>
+                <td>: <strong class="printAppName"></strong></td>
+            </tr>
+            <tr>
+                <td><strong>3</strong> Father's / Husband's Name</td>
+                <td>: <span class="printAppFather"></span></td>
+            </tr>
+            <tr>
+                <td><strong>4</strong> Residence</td>
+                <td>
+                    : VILLAGE: <span class="printAppVill"></span>, P.O.: <span class="printAppPO"></span><br>
+                    &nbsp;&nbsp;P.S.: <span class="printAppPS"></span>, DISTRICT: <span class="printAppDist"></span>, P.I.N.: <span class="printAppPIN"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>5</strong> Age as given in the M.P./Matric / S.F. / P.U. / H.S. Pass Certificate</td>
+                <td>: <span class="printAppAge"></span> [As on DOJ] &nbsp;&nbsp;&nbsp;&nbsp; <strong>DOB : <span class="printAppDob"></span></strong></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <strong>6 Academic qualifications:</strong>
+                    <table class="official-tbl" style="margin-top: 4px;">
+                        <thead>
+                            <tr>
+                                <th>Examination</th>
+                                <th style="width: 12%;">Year in which Passed</th>
+                                <th style="width: 14%;">Division & Class</th>
+                                <th>Subjects taken</th>
+                            </tr>
+                        </thead>
+                        <tbody class="printQualBody"></tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>7</strong> Previous Teaching Experience :-<br>&nbsp;&nbsp;&nbsp;School with period of service</td>
+                <td>: <span class="printAppPrevExp"></span><br><i class="printExpNotice">N.B.: Teachers shall have to produce documentary evidence regarding their teaching experience or <span class="printPronounObj">her</span> will be treated as a new entrant</i></td>
+            </tr>
+            <tr>
+                <td><strong>8</strong> If the teacher, previously worked in any Govt. Aided /Sponsored High School, West Bengal, the rate of pay or allowance drawn as given in <span class="printPronounPoss">her</span> last pay certificate</td>
+                <td>: <span class="printAppPoint8"></span></td>
+            </tr>
+            <tr>
+                <td><strong>9</strong> Nature of vacancy in which appointed: Name of the teacher, designation, pay etc., in whose place appointed.</td>
+                <td>: Permanent ; <span class="printVacancyFormattedClause"></span> ; Level of Pay :<strong class="printAppPayLevelStr"></strong> as per ROPA-19 Pay Scale and other admissible allowances.</td>
+            </tr>
+            <tr>
+                <td><strong>10 Date on which appointed</strong><br><br>Pay and allowance admissible under the new rule.<br><br>In case of confirmation – date on which first appointed should be noted with the original</td>
+                <td>
+                    : <strong class="printAppDoj"></strong><br><br>
+                    : Level of Pay :<strong class="printAppPayLevelStr"></strong> ; Pay & other Allowances: <strong>Basic Pay-Rs.<span class="printAppBasic"></span>/- ,DA-Rs.<span class="printAppDA"></span>/- ,HRA-Rs.<span class="printAppHRA"></span>/- ,M.A.-Rs.<span class="printAppMA"></span>/-</strong><br><br>
+                    : N.A.
+                </td>
+            </tr>
+            <tr>
+                <td><strong>11</strong> Condition, if any, of appointment</td>
+                <td>: N.A.</td>
+            </tr>
+            <tr>
+                <td><strong>12</strong> Signature of the teacher appointed</td>
+                <td>: _____________________________________________</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <strong>13 In case of strengthening the Staff following particulars should be furnished.</strong><br>
+                    (a) Present roll-strength of the school : N.A. | (b) No. of post sanctioned : N.A. | (c) Existing number of teachers : N.A.<br>
+                    (d) Special reason why the staff has been strengthened : N.A.<br>
+                    <i>Certificate: (i) Pass certificates verified (ii) Previous experience verified (iii) Post duly advertised -> N.A.</i>
+                </td>
+            </tr>
+        </table>
+
+        <div style="margin-top: 40px; display: flex; justify-content: space-between;">
+            <div class="text-center" style="width: 40%;">
+                ----------------------------------------------------<br>
+                <strong>Signature of <span class="printHoiDesignation">Headmaster / TIC</span></strong><br>
+                Date __________________
+            </div>
+            <div class="text-center" style="width: 45%;">
+                ----------------------------------------------------<br>
+                <strong>Signature of <span class="printAdminAuthority">Secretary / Administrator</span></strong><br>
+                Date __________________
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== PRINT CONTAINER 6: SERVICE BOOK PAGE ==================== -->
+<div id="printServiceBookArea" class="print-view page-break">
+    <div class="doc-container">
+        <h3 class="text-center" style="margin: 0 0 10px 0; text-transform: uppercase;">Service Book Page Format</h3>
+        <table class="official-tbl">
+            <thead>
+                <tr>
+                    <th style="width: 22%;">NAME OF POST WITH FULL ADDRESS OF THE INSTITUTION<br><strong>1</strong></th>
+                    <th style="width: 26%;">Scale of Pay with stages of increment<br><strong>2</strong></th>
+                    <th style="width: 6%;">Permanent /Temporary<br><strong>3</strong></th>
+                    <th style="width: 6%;">Nature of Appointment<br><strong>4</strong></th>
+                    <th style="width: 9%;">Date of Appointment<br><strong>5</strong></th>
+                    <th style="width: 8%;">Pay<br><strong>6</strong></th>
+                    <th style="width: 9%;">Date of termination of Appointment<br><strong>7</strong></th>
+                    <th style="width: 7%;">Reason<br><strong>8</strong></th>
+                    <th style="width: 7%;">Signatures & Cert.<br><strong>9-12</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="sbCol1"></td>
+                    <td id="sbCol2"></td>
+                    <td class="text-center">Permanent</td>
+                    <td class="text-center">Permanent</td>
+                    <td class="text-center" id="sbDojCol"></td>
+                    <td id="sbPayCol" style="padding: 0;"></td>
+                    <td id="sbDotCol" style="padding: 0;"></td>
+                    <td id="sbReasonCol" style="padding: 0;"></td>
+                    <td style="font-size: 0.72rem;">
+                        <br><br><br><br>
+                        ______________<br>Signature of Teacher<br><br><br>
+                        ______________<br>Signature of HOO/HM
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ==================== PRINT CONTAINER 7: HOI REPORT & ADMINISTRATOR ORDER / MC RESOLUTION ==================== -->
+<div id="printHoiReportArea" class="print-view page-break">
+    <div class="doc-container">
+        <!-- SECTION A: HOI REPORT -->
+        <h3 class="text-center bold" style="margin: 0 0 8px 0; text-decoration: underline; text-transform: uppercase; font-size: 1.1rem;">HOI Report</h3>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: bold;">
+            <span>Proposal No. ____________________</span>
+            <span>Date: ____________________</span>
+        </div>
+
+        <p style="text-align: justify; text-indent: 30px; line-height: 1.5; margin-bottom: 12px;">
+            In reference with the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span>, <strong class="printAppName">Swapna Mahanti</strong> ; <span class="printRelTerm">Son /Daughter Of</span> <span class="printAppFather">Ramkrishna Mahanti</span> Village : <span class="printAppVill">SRIPALLY BANKURA</span> P.O.: <span class="printAppPO">KENDUADIHI</span> P.S.: <span class="printAppPS">BANKURA</span> ; District : <span class="printAppDist">BANKURA</span> Pin : <span class="printAppPIN">722102</span>, joined in <strong class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</strong> ; <span class="printAppSchoolAddress">Vill- Taldangra, P.O.- Taldangra, Sub Div : Khatra , District- Bankura, Pin- 722152</span> to the post of <strong class="printDesignation">Assistant Teacher</strong> in <span class="printAcademicGroup">Language Group</span> in Subject -<span class="printSubjectName">Physics</span> ,Academic Section: <span class="printAcademicSection">Upper Primary Level</span> in <span class="printMediumLang">Bengali Medium</span> against a Permanent post ; <span class="printVacancyFormattedClause">consequent upon the transfer of Tushar Kanti Tapadar ; Resigned on 18.12.2019 [a.n.]</span>.
+        </p>
+
+        <p style="text-align: justify; text-indent: 30px; line-height: 1.5; margin-bottom: 25px;">
+            Release Order, LPC from <span class="printPronounPoss">her</span> previous school <span class="printAppPrevExp">SARENGA GIRLS H S, P.O.: SARENGA, Dist.: BANKURA</span> and other Related papers along with Joining report are being placed for taking necessary steps for approval of <span class="printPronounPoss">her</span> joining and also approval of <span class="printPronounPoss">her</span> appointment in this school to the said post w.e.f. <strong class="printAppDoj">24-02-2021</strong> from the end of the D.I./S (SE), <span class="printDiDistrict">Bankura</span>.
+        </p>
+
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 25px;">
+            <div class="text-center" style="width: 50%;">
+                <p style="margin:0;">--------------------------------------------------</p>
+                <p style="margin:0; font-weight:bold;"><span class="printHoiDesignation">Headmaster / Headmistress / TIC</span></p>
+                <p style="margin:0; font-size:0.85rem;"><span class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</span></p>
+            </div>
+        </div>
+
+        <hr style="border: none; border-top: 2px dashed #000; margin: 25px 0;">
+
+        <!-- SECTION B: ADMINISTRATOR ORDER / MC RESOLUTION -->
+        <div>
+            <h3 class="text-center bold" style="margin: 0 0 8px 0; text-decoration: underline; text-transform: uppercase; font-size: 1.1rem;" id="printHoiOrderHeading">Administrator Order</h3>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: bold;">
+                <span id="printHoiOrderNoLabel">Order No. ____________________</span>
+                <span>Date: ____________________</span>
+            </div>
+
+            <p style="text-align: justify; text-indent: 30px; line-height: 1.5; margin-bottom: 12px;">
+                <span id="printHoiOrderPrefix">As per HOI report</span> in connection with the approval of appointment in favour of <strong class="printAppName">Swapna Mahanti</strong>; <strong class="printDesignation">Assistant Teacher</strong> of this school and thereafter verification of Release Order, LPC from <span class="printPronounPoss">her</span> previous school <span class="printAppPrevExp">SARENGA GIRLS H S, P.O.: SARENGA, Dist.: BANKURA</span> and other related records it is observed that <span class="printPronounSubj">she</span> has been duly appointed to the post of <strong class="printDesignation">Assistant Teacher</strong> in <strong class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</strong> ; <span class="printAppSchoolAddress">Vill- Taldangra, P.O.- Taldangra, Sub Div : Khatra , District- Bankura, Pin- 722152</span> in <span class="printAcademicGroup">Language Group</span> [ Subject -<span class="printSubjectName">Physics</span> ,Academic Section: <span class="printAcademicSection">Upper Primary Level</span> ] in <span class="printMediumLang">Bengali Medium</span> against a Permanent post ; <span class="printVacancyFormattedClause">consequent upon the transfer of Tushar Kanti Tapadar ; Resigned on 18.12.2019 [a.n.]</span> In reference with the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span>.
+            </p>
+
+            <p style="text-align: justify; text-indent: 30px; line-height: 1.5; margin-bottom: 12px;">
+                <span class="printPronounPossCap">Her</span> Release order, LPC from <span class="printPronounPoss">her</span> previous school - <span class="printAppPrevExp">SARENGA GIRLS H S, P.O.: SARENGA, Dist.: BANKURA</span> and other related papers along with Joining report placed by the <span class="printHoiDesignation">HM/TIC</span> are verified and found correct and in order.
+            </p>
+
+            <p style="text-align: justify; text-indent: 30px; line-height: 1.5; margin-bottom: 30px;">
+                Hence <span class="printPronounPossCap">Her</span> Joining w.e.f. <strong class="printAppDoj">24-02-2021</strong> to the said post in this school alongwith Joining report is hereby accepted, approved and also passed. And hence the <span class="printHoiDesignation">Headmaster / Headmistress / TIC</span> of this school is being empowered to take necessary steps in this regard for approval of <span class="printPronounPoss">her</span> appointment in this school to the said post from the end of the D.I./S(SE), <span class="printDiDistrict">Bankura</span> w.e.f. <strong class="printAppDoj">24-02-2021</strong> and take other necessary action.
+            </p>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 40px;">
+                <div class="text-center" style="width: 50%;">
+                    <p style="margin:0;">--------------------------------------------------</p>
+                    <p style="margin:0; font-weight:bold;"><span id="printHoiSignatoryTitle">Administrator</span></p>
+                    <p style="margin:0; font-size:0.85rem;"><span class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const matrixData = {
+        1: [17000, 17500, 18000, 18500, 19100, 19700, 20300, 20900, 21500, 22100, 22800, 23500],
+        2: [17600, 18100, 18600, 19200, 19800, 20400, 21000, 21600, 22200, 22900, 23600, 24300],
+        3: [18800, 19400, 20000, 20600, 21200, 21800, 22500, 23200, 23900, 24600, 25300, 26100],
+        7: [24700, 25400, 26200, 27000, 27800, 28600, 29500, 30400, 31300, 32200, 33200, 34200],
+        10: [32100, 33100, 34100, 35100, 36200, 37300, 38400, 39600, 40800, 42000, 43300, 44600],
+        11: [33400, 34400, 35400, 36500, 37600, 38700, 39900, 41100, 42300, 43600, 44900, 46200],
+        12: [35800, 36900, 38000, 39100, 40300, 41500, 42700, 44000, 45300, 46700, 48100, 49500],
+        14: [39900, 41100, 42300, 43600, 44900, 46200, 47600, 49000, 50500, 52000, 53600, 55200],
+        15: [42600, 43900, 45200, 46600, 48000, 49400, 50900, 52400, 54000, 55600, 57300, 59000, 60800, 62600, 64500, 66400, 68400, 70500, 72600, 74800, 77000],
+        16: [56100, 57800, 59500, 61300, 63100, 65000, 67000, 69000, 71100, 73200, 75400, 77700]
+    };
+
+    const gpToLevelMap = {
+        1700: 1, 1800: 2, 2600: 3, 2900: 7, 3900: 10,
+        4100: 11, 4400: 12, 4700: 14, 4800: 15, 5400: 16
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        calculateDOR();
+        handleAppTypeChange();
+        handleVacancyTypeChange();
+        handleDesignationChange();
+        handleAcademicGroupChange();
+        handleAcademicSectionChange();
+        handleMediumLangChange();
+        calculateAllowances();
+        updateAllForms();
+    });
+
+    function handleAppTypeChange() {
+        const isFresh = document.getElementById('appType').value === 'fresh';
+        const prevExpInput = document.getElementById('prevExp');
+        if (isFresh) {
+            prevExpInput.disabled = true;
+            prevExpInput.placeholder = "N.A. (Fresh Appointee)";
+            document.getElementById('optionDateGroup').style.display = 'none';
+        } else {
+            prevExpInput.disabled = false;
+            prevExpInput.placeholder = "Enter previous school name, period & total service";
+            document.getElementById('optionDateGroup').style.display = 'flex';
+        }
+        autoFetchBasic();
+    }
+
+    function handleVacancyTypeChange() {
+        const vType = document.getElementById('vacancyType').value;
+        const nameGroup = document.getElementById('replacedNameGroup');
+        const detailsGroup = document.getElementById('replacedDetailsGroup');
+        const manualGroup = document.getElementById('manualVacancyGroup');
+
+        if (vType === 'manual') {
+            nameGroup.style.display = 'none';
+            detailsGroup.style.display = 'none';
+            manualGroup.style.display = 'flex';
+        } else if (vType === 'fresh_post') {
+            nameGroup.style.display = 'none';
+            detailsGroup.style.display = 'none';
+            manualGroup.style.display = 'none';
+        } else {
+            nameGroup.style.display = 'flex';
+            detailsGroup.style.display = 'flex';
+            manualGroup.style.display = 'none';
+        }
+    }
+
+    function handleDesignationChange() {
+        const val = document.getElementById('designationDD').value;
+        const group = document.getElementById('designationManualGroup');
+        group.style.display = (val === 'manual') ? 'flex' : 'none';
+    }
+
+    function handleAcademicGroupChange() {
+        const val = document.getElementById('academicGroupDD').value;
+        const group = document.getElementById('academicGroupManualGroup');
+        group.style.display = (val === 'manual') ? 'flex' : 'none';
+    }
+
+    function handleAcademicSectionChange() {
+        const val = document.getElementById('academicSectionDD').value;
+        const group = document.getElementById('academicSectionManualGroup');
+        group.style.display = (val === 'manual') ? 'flex' : 'none';
+    }
+
+    function handleMediumLangChange() {
+        const val = document.getElementById('mediumLangDD').value;
+        const group = document.getElementById('mediumLangManualGroup');
+        group.style.display = (val === 'manual') ? 'flex' : 'none';
+    }
+
+    function getDesignationVal() {
+        const ddVal = document.getElementById('designationDD').value;
+        return (ddVal === 'manual') ? document.getElementById('designationManual').value : ddVal;
+    }
+
+    function getAcademicGroupVal() {
+        const ddVal = document.getElementById('academicGroupDD').value;
+        return (ddVal === 'manual') ? document.getElementById('academicGroupManual').value : ddVal;
+    }
+
+    function getAcademicSectionVal() {
+        const ddVal = document.getElementById('academicSectionDD').value;
+        return (ddVal === 'manual') ? document.getElementById('academicSectionManual').value : ddVal;
+    }
+
+    function getMediumLangVal() {
+        const ddVal = document.getElementById('mediumLangDD').value;
+        return (ddVal === 'manual') ? document.getElementById('mediumLangManual').value : ddVal;
+    }
+
+    function autoFetchBasic() {
+        const gp = parseInt(document.getElementById('gradePay').value);
+        const level = gpToLevelMap[gp] || 1;
+        if (matrixData[level]) {
+            document.getElementById('basicPay').value = matrixData[level][0];
+        }
+        calculateAllowances();
+    }
+
+    function calculateAllowances() {
+        const basic = parseFloat(document.getElementById('basicPay').value) || 0;
+        const daPct = parseFloat(document.getElementById('daPercent').value) || 0;
+        
+        const calculatedDA = Math.round(basic * (daPct / 100));
+        document.getElementById('daAmt').value = calculatedDA;
+
+        const calculatedHRA = Math.round(basic * 0.12);
+        document.getElementById('hraAmt').value = calculatedHRA;
+    }
+
+    function getDOR() {
+        const dobInput = document.getElementById('dob').value;
+        if (!dobInput) return null;
+        const dob = new Date(dobInput);
+        let targetYear = dob.getFullYear() + 60;
+        return (dob.getDate() === 1) ? new Date(targetYear, dob.getMonth(), 0) : new Date(targetYear, dob.getMonth() + 1, 0);
+    }
+
+    function calculateDOR() {
+        const dor = getDOR();
+        if (dor) {
+            document.getElementById('dorOutput').innerHTML = `<strong>Date of Retirement (DOR):</strong> ${formatDate(dor)}`;
+        }
+    }
+
+    function formatDate(d) {
+        if (!d || isNaN(d)) return '';
+        return `${String(d.getDate()).padStart(2, '0')}-${String(d.getMonth() + 1).padStart(2, '0')}-${d.getFullYear()}`;
+    }
+
+    function findCell(level, basic) {
+        const arr = matrixData[level] || [];
+        let idx = arr.indexOf(basic);
+        if (idx !== -1) return { cell: `CELL-${idx + 1}`, value: basic, index: idx };
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i] >= basic) return { cell: `CELL-${i + 1}`, value: arr[i], index: i };
+        }
+        return { cell: `CELL-${arr.length || 1}`, value: basic, index: 0 };
+    }
+
+    let calculatedRows = [];
+
+    function generatePayTimeline() {
+        const appType = document.getElementById('appType').value;
+        const doj = new Date(document.getElementById('doj').value);
+        const initialBasic = parseInt(document.getElementById('basicPay').value);
+        const gp = parseInt(document.getElementById('gradePay').value);
+        const level = gpToLevelMap[gp] || 1;
+        const dor = getDOR();
+
+        if (!doj || isNaN(initialBasic) || !dor) return;
+
+        calculatedRows = [];
+        let currentBasic = initialBasic;
+        let startDate = (appType === 'fresh') ? new Date(doj) : new Date(document.getElementById('optionDate').value);
+        
+        calculatedRows.push({
+            date: new Date(startDate),
+            label: (appType === 'fresh') ? "Joining Entry Pay" : "ROPA-19 Fixation",
+            level: level,
+            basic: currentBasic,
+            cell: findCell(level, currentBasic).cell
+        });
+
+        // ROPA-19 6-Month Qualifying Rule
+        let firstIncYear = startDate.getFullYear();
+        let cutoffJan1 = new Date(startDate.getFullYear(), 0, 1);
+        
+        if (startDate > cutoffJan1) {
+            firstIncYear = startDate.getFullYear() + 1;
+            document.getElementById('ropa6MonthRuleNote').innerText = `ℹ️ ROPA-19 Rule: Joining Date (${formatDate(startDate)}) is after 1st Jan. Service completed prior to 1st July is less than 6 months. First annual increment effective from 01-07-${firstIncYear}.`;
+        } else {
+            document.getElementById('ropa6MonthRuleNote').innerText = `ℹ️ ROPA-19 Rule: Minimum 6 months qualifying service completed prior to 01-07-${firstIncYear}. First annual increment awarded on 01-07-${firstIncYear}.`;
+        }
+
+        let currYear = firstIncYear;
+        while (currYear <= dor.getFullYear()) {
+            let julIncDate = new Date(currYear, 6, 1);
+            if (julIncDate > startDate && julIncDate <= dor) {
+                let cellInfo = findCell(level, currentBasic);
+                let nextIdx = cellInfo.index + 1;
+                if (matrixData[level] && matrixData[level][nextIdx]) {
+                    currentBasic = matrixData[level][nextIdx];
+                }
+                calculatedRows.push({
+                    date: julIncDate,
+                    label: "Increment",
+                    level: level,
+                    basic: currentBasic,
+                    cell: findCell(level, currentBasic).cell
+                });
+            }
+            currYear++;
+        }
+
+        for (let i = 0; i < calculatedRows.length; i++) {
+            if (i < calculatedRows.length - 1) {
+                let nextDate = new Date(calculatedRows[i + 1].date);
+                let prevDay = new Date(nextDate);
+                prevDay.setDate(prevDay.getDate() - 1);
+                calculatedRows[i].dot = prevDay;
+            } else {
+                calculatedRows[i].dot = dor;
+            }
+        }
+
+        const tbody = document.getElementById('payTableBody');
+        tbody.innerHTML = "";
+        calculatedRows.forEach(r => {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${formatDate(r.date)}</strong></td>
+                <td>${formatDate(r.dot)}</td>
+                <td>${r.label}</td>
+                <td>LEVEL-${r.level}</td>
+                <td>${r.cell}</td>
+                <td><strong>₹ ${r.basic.toLocaleString('en-IN')}</strong></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function getVacancyTextFormatted() {
+        const vType = document.getElementById('vacancyType').value;
+        const name = document.getElementById('replacedStaffName').value.trim();
+        const details = document.getElementById('replacedStaffDetails').value.trim();
+        const manual = document.getElementById('manualVacancyText').value.trim();
+
+        if (vType === 'manual') {
+            return manual;
+        } else if (vType === 'fresh_post') {
+            return "Consequent Upon a newly sanctioned permanent post";
+        }
+
+        let fullEmpStr = name;
+        if (details) fullEmpStr += ` ; ${details}`;
+
+        switch (vType) {
+            case 'transfer': return `consequent upon the transfer of ${fullEmpStr}`;
+            case 'resignation': return `consequent upon the resignation of ${fullEmpStr}`;
+            case 'retirement': return `consequent upon the normal retirement of ${fullEmpStr}`;
+            case 'death': return `consequent upon the demise of ${fullEmpStr}`;
+            default: return fullEmpStr;
+        }
+    }
+
+    function updateAllForms() {
+        generatePayTimeline();
+
+        const gender = document.getElementById('employeeGender').value;
+        const isFresh = document.getElementById('appType').value === 'fresh';
+        const gp = document.getElementById('gradePay').value;
+        const level = gpToLevelMap[gp];
+        const payLevelStr = `LEVEL-${level}-PB-4-9000-40500-GP-RS-${gp}`;
+
+        // Gender Pronouns Logic
+        const isFemale = (gender === 'female');
+        const relTerm = isFemale ? 'Daughter Of' : 'Son Of';
+        const relTermUpper = isFemale ? 'DAUGHTER OF' : 'SON OF';
+        const pronounPoss = isFemale ? 'her' : 'his';
+        const pronounPossCap = isFemale ? 'Her' : 'His';
+        const pronounSubj = isFemale ? 'she' : 'he';
+        const pronounSubjCap = isFemale ? 'She' : 'He';
+        const pronounObj = isFemale ? 'her' : 'him';
+
+        const setTxt = (cls, val) => {
+            document.querySelectorAll('.' + cls).forEach(el => el.innerText = val);
+        };
+
+        // Pronoun Updates
+        setTxt('printRelTerm', relTerm);
+        setTxt('printRelTermUpper', relTermUpper);
+        setTxt('printPronounPoss', pronounPoss);
+        setTxt('printPronounPossCap', pronounPossCap);
+        setTxt('printPronounSubj', pronounSubj);
+        setTxt('printPronounSubjCap', pronounSubjCap);
+        setTxt('printPronounObj', pronounObj);
+
+        // Administration & Identification Updates
+        const adminStatusVal = document.getElementById('adminStatus').value;
+        const adminWithArticle = (adminStatusVal === 'Administrator') ? 'the Administrator' : `the ${adminStatusVal}`;
+        setTxt('printHoiDesignation', document.getElementById('hoiStatus').value);
+        setTxt('printAdminAuthority', adminStatusVal);
+        setTxt('printAdminAuthorityWithArticle', adminWithArticle);
+
+        // Dynamic HOI Report / Order / MC Resolution Labels
+        if (adminStatusVal === 'Managing Committee') {
+            document.getElementById('printHoiOrderHeading').innerText = 'Managing Committee Resolution';
+            document.getElementById('printHoiOrderNoLabel').innerText = 'Resolution No. ____________________';
+            document.getElementById('printHoiOrderPrefix').innerText = 'Resolved that as per HOI report';
+            document.getElementById('printHoiSignatoryTitle').innerText = 'President / Secretary, Managing Committee';
+        } else if (adminStatusVal === 'Ad-hoc Committee') {
+            document.getElementById('printHoiOrderHeading').innerText = 'Ad-hoc Committee Resolution';
+            document.getElementById('printHoiOrderNoLabel').innerText = 'Resolution No. ____________________';
+            document.getElementById('printHoiOrderPrefix').innerText = 'Resolved that as per HOI report';
+            document.getElementById('printHoiSignatoryTitle').innerText = 'President / Secretary, Ad-hoc Committee';
+        } else { // Administrator
+            document.getElementById('printHoiOrderHeading').innerText = 'Administrator Order';
+            document.getElementById('printHoiOrderNoLabel').innerText = 'Order No. ____________________';
+            document.getElementById('printHoiOrderPrefix').innerText = 'As per HOI report';
+            document.getElementById('printHoiSignatoryTitle').innerText = 'The Administrator';
+        }
+
+        setTxt('printDiDistrict', document.getElementById('diDistrict').value);
+        setTxt('printIosmsCode', document.getElementById('iosmsCode').value);
+        setTxt('printHoiForwardingMemo', document.getElementById('hoiForwardingMemo').value);
+        setTxt('printAdminOrderNo', document.getElementById('adminOrderNo').value);
+
+        // General Particulars
+        setTxt('printAppSchoolName', document.getElementById('schoolName').value);
+        setTxt('printAppSchoolAddress', document.getElementById('schoolAddress').value);
+        setTxt('printAppName', document.getElementById('staffName').value);
+        setTxt('printAppFather', document.getElementById('fatherName').value);
+        setTxt('printAppVill', document.getElementById('resVillage').value);
+        setTxt('printAppPO', document.getElementById('resPO').value);
+        setTxt('printAppPS', document.getElementById('resPS').value);
+        setTxt('printAppDist', document.getElementById('resDistrict').value);
+        setTxt('printAppPIN', document.getElementById('resPIN').value);
+        setTxt('printAppAge', document.getElementById('ageOnDoj').value);
+        setTxt('printAppDob', formatDate(new Date(document.getElementById('dob').value)));
+        setTxt('printAppDoj', formatDate(new Date(document.getElementById('doj').value)));
+        setTxt('printJoiningTime', document.getElementById('joiningTime').value);
+        
+        // Fetch values from Dropdowns
+        const effectiveDesignation = getDesignationVal();
+        const effectiveAcademicGroup = getAcademicGroupVal();
+        const effectiveAcademicSection = getAcademicSectionVal();
+        const effectiveMediumLang = getMediumLangVal();
+
+        setTxt('printDesignation', effectiveDesignation);
+        setTxt('printAcademicGroup', effectiveAcademicGroup);
+        setTxt('printAcademicSection', effectiveAcademicSection);
+        setTxt('printMediumLang', effectiveMediumLang);
+        setTxt('printSubjectName', document.getElementById('subjectName').value);
+
+        setTxt('printSscMemo', document.getElementById('sscMemo').value);
+        setTxt('printWbbseMemo', document.getElementById('wbbseMemo').value);
+
+        // Vacancy Formatted Text
+        const vacancyFormatted = getVacancyTextFormatted();
+        setTxt('printVacancyFormattedClause', vacancyFormatted);
+
+        if (isFresh) {
+            setTxt('printAppPrevExp', 'N.A. (Fresh Appointee / Direct Entry)');
+            document.querySelectorAll('.printExpNotice').forEach(e => e.style.display = 'none');
+            setTxt('printAppPoint8', 'N.A. (Fresh Appointee / Direct Entry)');
+        } else {
+            setTxt('printAppPrevExp', document.getElementById('prevExp').value);
+            document.querySelectorAll('.printExpNotice').forEach(e => e.style.display = 'inline');
+            setTxt('printAppPoint8', `Yes ; Level of Pay: ${payLevelStr} ; Pay & Allowances: Basic-Rs.${document.getElementById('basicPay').value}/-, DA-Rs.${document.getElementById('daAmt').value}/-, HRA-Rs.${document.getElementById('hraAmt').value}/-`);
+        }
+
+        setTxt('printAppPayLevelStr', payLevelStr);
+        setTxt('printAppBasic', document.getElementById('basicPay').value);
+        setTxt('printAppDA', document.getElementById('daAmt').value);
+        setTxt('printAppHRA', document.getElementById('hraAmt').value);
+        setTxt('printAppMA', document.getElementById('maAmt').value);
+
+        // Academic Qualifications Table
+        const qualHTML = `
+            <tr><td>Madhyamik/Matric/S.F.</td><td class="text-center">${document.getElementById('q1_yr').value}</td><td class="text-center">${document.getElementById('q1_div').value}</td><td>${document.getElementById('q1_sub').value}</td></tr>
+            <tr><td>Higher Secondary</td><td class="text-center">${document.getElementById('q2_yr').value}</td><td class="text-center">${document.getElementById('q2_div').value}</td><td>${document.getElementById('q2_sub').value}</td></tr>
+            <tr><td>B.A./B.Sc./B.Com.</td><td class="text-center">${document.getElementById('q3_yr').value}</td><td class="text-center">${document.getElementById('q3_div').value}</td><td>${document.getElementById('q3_sub').value}</td></tr>
+            <tr><td>M.A./M.Sc./M.Com.</td><td class="text-center">${document.getElementById('q4_yr').value}</td><td class="text-center">${document.getElementById('q4_div').value}</td><td>${document.getElementById('q4_sub').value}</td></tr>
+            <tr><td>B.Ed./Training Certificate</td><td class="text-center">${document.getElementById('q5_yr').value}</td><td class="text-center">${document.getElementById('q5_div').value}</td><td>${document.getElementById('q5_sub').value}</td></tr>
+        `;
+
+        document.querySelectorAll('.printQualBody').forEach(el => el.innerHTML = qualHTML);
+
+        // Update Screen Interactive Live Previews
+        document.getElementById('screenNonLitPreview').innerHTML = document.getElementById('printNonLitCertArea').innerHTML;
+        document.getElementById('screenIosmsPreview').innerHTML = document.getElementById('printIosmsLetterArea').innerHTML;
+
+        // Render Service Book Narrative
+        const desig = effectiveDesignation;
+        const school = document.getElementById('schoolName').value;
+        const wbbse = document.getElementById('wbbseMemo').value;
+        const ssc = document.getElementById('sscMemo').value;
+        const di = document.getElementById('diMemo').value;
+        const staff = document.getElementById('staffName').value;
+        const dojStr = formatDate(new Date(document.getElementById('doj').value));
+        const sub = document.getElementById('subjectName').value;
+        const time = document.getElementById('joiningTime').value;
+
+        document.getElementById('sbCol1').innerHTML = `<strong>${desig}</strong><br>${school}`;
+        document.getElementById('sbCol2').innerHTML = `
+            <strong>${payLevelStr}</strong><br>
+            [ROPA-19 Pay Scale in terms of G.O.No.437-SE(P&B)/SL/5S-408/19 dt.13.12.19 ]<hr style="border:none; border-top:1px dashed #000; margin:5px 0;">
+            In reference with the Order of West Bengal Board of Secondary Education vide Memo No <strong>${wbbse}</strong> against Recommendation of WBCSSC vide Memo No. <strong>${ssc}</strong> 
+            <strong>${staff}</strong> has joined in this school to the post of <strong>${desig} [Subject- ${sub} ; Group- ${effectiveAcademicGroup} , Academic Level- ${effectiveAcademicSection} in ${effectiveMediumLang}]</strong> on 
+            <strong>${dojStr}</strong> at ${time} against a permanent post in place of <strong>${vacancyFormatted}</strong>.<br><br>
+            ${pronounPossCap} appointment has been duly approved w.e.f. <strong>${dojStr}</strong> by the D.I./S(S.E.),${document.getElementById('diDistrict').value}; vide Memo No. <strong>${di}</strong>.
+        `;
+
+        document.getElementById('sbDojCol').innerText = dojStr;
+
+        let payHtml = "", dotHtml = "", reasonHtml = "";
+        calculatedRows.forEach(r => {
+            payHtml += `<div style="border-bottom:1px solid #000; padding: 4px;"><strong>${r.basic}</strong></div>`;
+            dotHtml += `<div style="border-bottom:1px solid #000; padding: 4px;">${formatDate(r.dot)}</div>`;
+            reasonHtml += `<div style="border-bottom:1px solid #000; padding: 4px;">${r.label}</div>`;
+        });
+
+        document.getElementById('sbPayCol').innerHTML = payHtml;
+        document.getElementById('sbDotCol').innerHTML = dotHtml;
+        document.getElementById('sbReasonCol').innerHTML = reasonHtml;
+    }
+
+    function setPrintVisibility(targetId) {
+        const ids = ['printDiLetterArea', 'printNonLitCertArea', 'printIosmsLetterArea', 'printJoiningReportArea', 'printApprovalArea', 'printServiceBookArea', 'printHoiReportArea'];
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = (targetId === 'all' || targetId === id) ? 'block' : 'none';
+        });
+    }
+
+    function restoreAllPrintDisplays() {
+        const ids = ['printDiLetterArea', 'printNonLitCertArea', 'printIosmsLetterArea', 'printJoiningReportArea', 'printApprovalArea', 'printServiceBookArea', 'printHoiReportArea'];
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'block';
+        });
+    }
+
+    function printAllDocuments() {
+        updateAllForms();
+        setPrintVisibility('all');
+        window.print();
+    }
+
+    function printHoiReportOnly() {
+        updateAllForms();
+        setPrintVisibility('printHoiReportArea');
+        window.print();
+        restoreAllPrintDisplays();
+    }
+
+    function printDiLetterOnly() {
+        updateAllForms();
+        setPrintVisibility('printDiLetterArea');
+        window.print();
+        restoreAllPrintDisplays();
+    }
+
+    function printNonLitCertOnly() {
+        updateAllForms();
+        setPrintVisibility('printNonLitCertArea');
+        window.print();
+        restoreAllPrintDisplays();
+    }
+
+    function printIosmsLetterOnly() {
+        updateAllForms();
+        setPrintVisibility('printIosmsLetterArea');
+        window.print();
+        restoreAllPrintDisplays();
+    }
+
+    function printJoiningReportOnly() {
+        updateAllForms();
+        setPrintVisibility('printJoiningReportArea');
+        window.print();
+        restoreAllPrintDisplays();
+    }
+
+    function printApprovalFormOnly() {
+        updateAllForms();
+        setPrintVisibility('printApprovalArea');
+        window.print();
+        restoreAllPrintDisplays();
+    }
+
+    function printServiceBookOnly() {
+        updateAllForms();
+        setPrintVisibility('printServiceBookArea');
+        window.print();
+        restoreAllPrintDisplays();
+    }
+</script>
+
+</body>
+</html>
