@@ -240,7 +240,7 @@
             }
 
             table.official-tbl th, table.official-tbl td {
-                border: 1px solid #000;
+                border: 1px solid #000 !important;
                 padding: 4px 6px;
                 vertical-align: top;
             }
@@ -1931,7 +1931,7 @@
         document.getElementById('screenNonLitPreview').innerHTML = document.getElementById('printNonLitCertArea').innerHTML;
         document.getElementById('screenIosmsPreview').innerHTML = document.getElementById('printIosmsLetterArea').innerHTML;
 
-        // Render Service Book Table Dynamically (Cols 1 to 12 matching image_b726dd.png)
+        // Render Service Book Table Dynamically (Cols 1 to 12 matching image_b726dd.png & image_b7ae24.png)
         const desig = effectiveDesignation;
         const school = schoolNameVal;
         const wbbse = document.getElementById('wbbseMemo').value;
@@ -1967,10 +1967,10 @@
                         </td>
                         <td rowspan="${calculatedRows.length}" class="text-center" style="vertical-align: top;">Permanent</td>
                         <td rowspan="${calculatedRows.length}" class="text-center" style="vertical-align: top;">Permanent</td>
-                        <td rowspan="${calculatedRows.length}" class="text-center" style="vertical-align: top;"><strong>${dojStr}</strong></td>
-                        <td class="text-center"><strong>${r.basic}</strong></td>
-                        <td class="text-center">${formatDate(r.dot)}</td>
-                        <td>${r.label}</td>
+                        <td class="text-center" style="vertical-align: middle;"><strong>${formatDate(r.date)}</strong></td>
+                        <td class="text-center" style="vertical-align: middle;"><strong>${r.basic}</strong></td>
+                        <td class="text-center" style="vertical-align: middle;">${formatDate(r.dot)}</td>
+                        <td style="vertical-align: middle;">${r.label}</td>
                         <td rowspan="${calculatedRows.length}" style="font-size: 0.72rem; vertical-align: top;">
                             <br><br><br><br>
                             ______________<br>Signature of Teacher<br><br><br>
@@ -1979,9 +1979,10 @@
                     `;
                 } else {
                     tr.innerHTML = `
-                        <td class="text-center"><strong>${r.basic}</strong></td>
-                        <td class="text-center">${formatDate(r.dot)}</td>
-                        <td>${r.label}</td>
+                        <td class="text-center" style="vertical-align: middle;"><strong>${formatDate(r.date)}</strong></td>
+                        <td class="text-center" style="vertical-align: middle;"><strong>${r.basic}</strong></td>
+                        <td class="text-center" style="vertical-align: middle;">${formatDate(r.dot)}</td>
+                        <td style="vertical-align: middle;">${r.label}</td>
                     `;
                 }
                 sbTbody.appendChild(tr);
