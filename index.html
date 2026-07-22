@@ -601,7 +601,11 @@
             <label for="sscMemo">WB Central SSC Recommendation Memo No & Date</label>
             <input type="text" id="sscMemo" value="04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021" oninput="updateAllForms()">
         </div>
-        <div class="form-group">
+        <div class="form-group" style="grid-column: span 2; display:flex; align-items:center; gap:8px;">
+            <input type="checkbox" id="wbbseCaseActive" onchange="handleWbbseCaseToggle(); updateAllForms();" style="width:auto;">
+            <label for="wbbseCaseActive" style="margin:0;">Activate WBBSE Appointment Order Case (keep OFF when using the Appointment Accepting Authority dropdown below)</label>
+        </div>
+        <div class="form-group" id="wbbseMemoGroup" style="display:none;">
             <label for="wbbseMemo">WBBSE Appointment Order Memo No & Date</label>
             <input type="text" id="wbbseMemo" value="WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021" oninput="updateAllForms()">
         </div>
@@ -835,7 +839,7 @@
         </p>
 
         <p style="text-align: justify; text-indent: 30px; line-height: 1.5; margin-bottom: 12px;">
-            It may be mentioned for your kind information that <span class="printPronounSubjCap">She</span> has been appointed in reference with the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span> .
+            It may be mentioned for your kind information that <span class="printPronounSubjCap">She</span> has been appointed in reference with <span class="printReferenceClauseEng">the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span></span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span> .
         </p>
 
         <p style="text-align: justify; text-indent: 30px; line-height: 1.5; margin-bottom: 15px;">
@@ -911,7 +915,7 @@
         </p>
 
         <p style="text-align: justify; text-indent: 30px; line-height: 1.6; margin-bottom: 15px;">
-            It also may be mentioned for your kind information that <span class="printPronounSubjCap">She</span> has been appointed In reference with the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span> .
+            It also may be mentioned for your kind information that <span class="printPronounSubjCap">She</span> has been appointed In reference with <span class="printReferenceClauseEng">the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span></span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span> .
         </p>
 
         <p style="text-align: justify; text-indent: 30px; line-height: 1.6; margin-bottom: 30px;">
@@ -955,7 +959,7 @@
         <p style="font-size: 1rem; font-weight: bold; margin-bottom: 15px;">Sir/Madam,</p>
 
         <p style="text-align: justify; text-indent: 30px; line-height: 1.6; margin-bottom: 20px;">
-            In reference with the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span> I, <strong class="printAppName">Swapna Mahanti</strong> ; <span class="printRelTerm">Daughter Of</span> <span class="printAppFather">Ramkrishna Mahanti</span> Village : <span class="printAppVill">SRIPALLY BANKURA</span> P.O.: <span class="printAppPO">KENDUADIHI</span> P.S.: <span class="printAppPS">BANKURA</span> ; District : <span class="printAppDist">BANKURA</span> Pin : <span class="printAppPIN">722102</span>, joined in <strong class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</strong> ; <span class="printAppSchoolAddress">Vill- Taldangra, P.O.- Taldangra, Sub Div : Khatra , District- Bankura, Pin- 722152</span> to the post of <strong class="printDesignation">Assistant Teacher</strong> in <span class="printAcademicGroup">Language Group</span> in Subject - <span class="printSubjectName">Physics</span>, Academic Section: <span class="printAcademicSection">Upper Primary Level</span> in <span class="printMediumLang">Bengali Medium</span> on <strong class="printAppDoj">24-02-2021</strong> at <strong class="printJoiningTime">11:00 A.M.</strong> against a Permanent post.
+            In reference with <span class="printReferenceClauseEng">the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span></span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span> I, <strong class="printAppName">Swapna Mahanti</strong> ; <span class="printRelTerm">Daughter Of</span> <span class="printAppFather">Ramkrishna Mahanti</span> Village : <span class="printAppVill">SRIPALLY BANKURA</span> P.O.: <span class="printAppPO">KENDUADIHI</span> P.S.: <span class="printAppPS">BANKURA</span> ; District : <span class="printAppDist">BANKURA</span> Pin : <span class="printAppPIN">722102</span>, joined in <strong class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</strong> ; <span class="printAppSchoolAddress">Vill- Taldangra, P.O.- Taldangra, Sub Div : Khatra , District- Bankura, Pin- 722152</span> to the post of <strong class="printDesignation">Assistant Teacher</strong> in <span class="printAcademicGroup">Language Group</span> in Subject - <span class="printSubjectName">Physics</span>, Academic Section: <span class="printAcademicSection">Upper Primary Level</span> in <span class="printMediumLang">Bengali Medium</span> on <strong class="printAppDoj">24-02-2021</strong> at <strong class="printJoiningTime">11:00 A.M.</strong> against a Permanent post.
         </p>
 
         <p style="text-align: justify; text-indent: 30px; line-height: 1.6; margin-bottom: 30px;">
@@ -1248,7 +1252,7 @@
         </div>
 
         <p style="text-align: justify; text-indent: 30px; line-height: 1.5; margin-bottom: 12px;">
-            In reference with the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span>, <strong class="printAppName">Swapna Mahanti</strong> ; <span class="printRelTerm">Son /Daughter Of</span> <span class="printAppFather">Ramkrishna Mahanti</span> Village : <span class="printAppVill">SRIPALLY BANKURA</span> P.O.: <span class="printAppPO">KENDUADIHI</span> P.S.: <span class="printAppPS">BANKURA</span> ; District : <span class="printAppDist">BANKURA</span> Pin : <span class="printAppPIN">722102</span>, joined in <strong class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</strong> ; <span class="printAppSchoolAddress">Vill- Taldangra, P.O.- Taldangra, Sub Div : Khatra , District- Bankura, Pin- 722152</span> to the post of <strong class="printDesignation">Assistant Teacher</strong> in <span class="printAcademicGroup">Language Group</span> in Subject -<span class="printSubjectName">Physics</span> ,Academic Section: <span class="printAcademicSection">Upper Primary Level</span> in <span class="printMediumLang">Bengali Medium</span> against a Permanent post ; <span class="printVacancyFormattedClause">consequent upon the transfer of Tushar Kanti Tapadar ; Resigned on 18.12.2019 [a.n.]</span>.
+            In reference with <span class="printReferenceClauseEng">the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span></span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span>, <strong class="printAppName">Swapna Mahanti</strong> ; <span class="printRelTerm">Son /Daughter Of</span> <span class="printAppFather">Ramkrishna Mahanti</span> Village : <span class="printAppVill">SRIPALLY BANKURA</span> P.O.: <span class="printAppPO">KENDUADIHI</span> P.S.: <span class="printAppPS">BANKURA</span> ; District : <span class="printAppDist">BANKURA</span> Pin : <span class="printAppPIN">722102</span>, joined in <strong class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</strong> ; <span class="printAppSchoolAddress">Vill- Taldangra, P.O.- Taldangra, Sub Div : Khatra , District- Bankura, Pin- 722152</span> to the post of <strong class="printDesignation">Assistant Teacher</strong> in <span class="printAcademicGroup">Language Group</span> in Subject -<span class="printSubjectName">Physics</span> ,Academic Section: <span class="printAcademicSection">Upper Primary Level</span> in <span class="printMediumLang">Bengali Medium</span> against a Permanent post ; <span class="printVacancyFormattedClause">consequent upon the transfer of Tushar Kanti Tapadar ; Resigned on 18.12.2019 [a.n.]</span>.
         </p>
 
         <p style="text-align: justify; text-indent: 30px; line-height: 1.5; margin-bottom: 25px;">
@@ -1274,7 +1278,7 @@
             </div>
 
             <p style="text-align: justify; text-indent: 30px; line-height: 1.5; margin-bottom: 12px;">
-                As per HOI report in connection with the approval of appointment in favour of <strong class="printAppName">Swapna Mahanti</strong>; <strong class="printDesignation">Assistant Teacher</strong> of this school and thereafter verification of Release Order, LPC from <span class="printPronounPoss">her</span> previous school <span class="printAppPrevExp">SARENGA GIRLS H S, P.O.: SARENGA, Dist.: BANKURA</span> and other related records it is observed that <span class="printPronounSubj">she</span> has been duly appointed to the post of <strong class="printDesignation">Assistant Teacher</strong> in <strong class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</strong> ; <span class="printAppSchoolAddress">Vill- Taldangra, P.O.- Taldangra, Sub Div : Khatra , District- Bankura, Pin- 722152</span> in <span class="printAcademicGroup">Language Group</span> [ Subject -<span class="printSubjectName">Physics</span> ,Academic Section: <span class="printAcademicSection">Upper Primary Level</span> ] in <span class="printMediumLang">Bengali Medium</span> against a Permanent post ; <span class="printVacancyFormattedClause">consequent upon the transfer of Tushar Kanti Tapadar ; Resigned on 18.12.2019 [a.n.]</span> In reference with the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span>.
+                As per HOI report in connection with the approval of appointment in favour of <strong class="printAppName">Swapna Mahanti</strong>; <strong class="printDesignation">Assistant Teacher</strong> of this school and thereafter verification of Release Order, LPC from <span class="printPronounPoss">her</span> previous school <span class="printAppPrevExp">SARENGA GIRLS H S, P.O.: SARENGA, Dist.: BANKURA</span> and other related records it is observed that <span class="printPronounSubj">she</span> has been duly appointed to the post of <strong class="printDesignation">Assistant Teacher</strong> in <strong class="printAppSchoolName">Taldangra Fulmati High School[H.S.]</strong> ; <span class="printAppSchoolAddress">Vill- Taldangra, P.O.- Taldangra, Sub Div : Khatra , District- Bankura, Pin- 722152</span> in <span class="printAcademicGroup">Language Group</span> [ Subject -<span class="printSubjectName">Physics</span> ,Academic Section: <span class="printAcademicSection">Upper Primary Level</span> ] in <span class="printMediumLang">Bengali Medium</span> against a Permanent post ; <span class="printVacancyFormattedClause">consequent upon the transfer of Tushar Kanti Tapadar ; Resigned on 18.12.2019 [a.n.]</span> In reference with <span class="printReferenceClauseEng">the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</span></span> against the recommendation letter of the West Bengal Central School Service Commission vide Memo No: <span class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</span>.
             </p>
 
             <p style="text-align: justify; text-indent: 30px; line-height: 1.5; margin-bottom: 12px;">
@@ -1307,7 +1311,7 @@
             </p>
 
             <p style="text-align: justify; text-indent: 30px; line-height: 1.6; margin-bottom: 12px; font-size: 0.95rem;">
-                পশ্চিমবঙ্গ মধ্যশিক্ষা পর্ষদের নিয়োগপত্র স্মারক নং <strong class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</strong> এবং পশ্চিমবঙ্গ কেন্দ্রীয় স্কুল সার্ভিস কমিশনের সুপারিশপত্র স্মারক নং <strong class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</strong> অনুযায়ী <strong class="printAppName">Swapna Mahanti</strong>; পিতা/স্বামী: <span class="printAppFather">Ramkrishna Mahanti</span>, গ্রাম: <span class="printAppVill">SRIPALLY BANKURA</span>, পো: <span class="printAppPO">KENDUADIHI</span>, থানা: <span class="printAppPS">BANKURA</span>, জেলা: <span class="printAppDist">BANKURA</span>, পিন: <span class="printAppPIN">722102</span>-কে এই বিদ্যালয়ে <strong class="printDesignation">Assistant Teacher</strong> পদে [বিষয়: <strong class="printSubjectName">Physics</strong>, বিভাগ: <span class="printAcademicGroup">Language Group</span>, স্তর: <span class="printAcademicSection">Upper Primary Level</span>, মাধ্যম: <span class="printMediumLang">Bengali Medium</span>] স্থায়ী শূন্যপদে <span class="printVacancyFormattedClause">consequent upon the transfer of Tushar Kanti Tapadar</span> হিসাবে আজ <strong class="printAppDoj">24-02-2021</strong> তারিখ পূর্বাহ্ন / অপরাহ্ন <strong class="printJoiningTime">11:00 A.M.</strong> ঘটিকায় যোগদানপত্র গ্রহণ ও অনুমোদন করা হইল।
+                <span class="printReferenceClauseBn">পশ্চিমবঙ্গ মধ্যশিক্ষা পর্ষদের নিয়োগপত্র স্মারক নং <strong class="printWbbseMemo">WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021</strong></span> এবং পশ্চিমবঙ্গ কেন্দ্রীয় স্কুল সার্ভিস কমিশনের সুপারিশপত্র স্মারক নং <strong class="printSscMemo">04672/6962/16/GT/CSSC/Utsashree/2021 dated 16.09.2021</strong> অনুযায়ী <strong class="printAppName">Swapna Mahanti</strong>; পিতা/স্বামী: <span class="printAppFather">Ramkrishna Mahanti</span>, গ্রাম: <span class="printAppVill">SRIPALLY BANKURA</span>, পো: <span class="printAppPO">KENDUADIHI</span>, থানা: <span class="printAppPS">BANKURA</span>, জেলা: <span class="printAppDist">BANKURA</span>, পিন: <span class="printAppPIN">722102</span>-কে এই বিদ্যালয়ে <strong class="printDesignation">Assistant Teacher</strong> পদে [বিষয়: <strong class="printSubjectName">Physics</strong>, বিভাগ: <span class="printAcademicGroup">Language Group</span>, স্তর: <span class="printAcademicSection">Upper Primary Level</span>, মাধ্যম: <span class="printMediumLang">Bengali Medium</span>] স্থায়ী শূন্যপদে <span class="printVacancyFormattedClause">consequent upon the transfer of Tushar Kanti Tapadar</span> হিসাবে আজ <strong class="printAppDoj">24-02-2021</strong> তারিখ পূর্বাহ্ন / অপরাহ্ন <strong class="printJoiningTime">11:00 A.M.</strong> ঘটিকায় যোগদানপত্র গ্রহণ ও অনুমোদন করা হইল।
             </p>
 
             <p style="text-align: justify; text-indent: 30px; line-height: 1.6; margin-bottom: 30px; font-size: 0.95rem;">
@@ -1396,6 +1400,7 @@
         handleAcademicSectionChange();
         handleMediumLangChange();
         handleOrderAuthorityChange();
+        handleWbbseCaseToggle();
         calculateAllowances();
         loadEnclosurePreset();
         updateAllForms();
@@ -1505,6 +1510,11 @@
         group.style.display = (val === 'manual') ? 'flex' : 'none';
     }
 
+    function handleWbbseCaseToggle() {
+        const active = document.getElementById('wbbseCaseActive').checked;
+        document.getElementById('wbbseMemoGroup').style.display = active ? 'flex' : 'none';
+    }
+
     function handleOrderAuthorityChange() {
         const val = document.getElementById('orderAuthorityType').value;
         document.getElementById('presidentOrderGroup').style.display = (val === 'president') ? 'flex' : 'none';
@@ -1517,13 +1527,31 @@
     function getOrderAuthorityData() {
         const val = document.getElementById('orderAuthorityType').value;
         if (val === 'president') {
-            return { label: 'the President', memo: document.getElementById('presidentOrderNo').value };
+            return { label: 'the President', labelBn: 'সভাপতি', memo: document.getElementById('presidentOrderNo').value };
         } else if (val === 'secretary') {
-            return { label: 'the Secretary', memo: document.getElementById('secretaryOrderNo').value };
+            return { label: 'the Secretary', labelBn: 'সম্পাদক', memo: document.getElementById('secretaryOrderNo').value };
         } else if (val === 'others') {
-            return { label: document.getElementById('othersOrderAuthorityLabel').value, memo: document.getElementById('othersOrderNo').value };
+            const manualLabel = document.getElementById('othersOrderAuthorityLabel').value;
+            return { label: manualLabel, labelBn: manualLabel, memo: document.getElementById('othersOrderNo').value };
         }
-        return { label: 'the Administrator', memo: document.getElementById('administratorOrderNo').value };
+        return { label: 'the Administrator', labelBn: 'প্রশাসক', memo: document.getElementById('administratorOrderNo').value };
+    }
+
+    function renderReferenceClauses(orderAuthData) {
+        const wbbseActive = document.getElementById('wbbseCaseActive').checked;
+        const wbbseMemoVal = document.getElementById('wbbseMemo').value;
+
+        let engHtml, bnHtml;
+        if (wbbseActive) {
+            engHtml = `the order of West Bengal Board of Secondary Education vide Memo No. <span class="printWbbseMemo">${wbbseMemoVal}</span>`;
+            bnHtml = `পশ্চিমবঙ্গ মধ্যশিক্ষা পর্ষদের নিয়োগপত্র স্মারক নং <strong class="printWbbseMemo">${wbbseMemoVal}</strong>`;
+        } else {
+            engHtml = `the Appointment Letter of ${orderAuthData.label} vide Appointment Letter No. <span class="printWbbseMemo">${orderAuthData.memo}</span>`;
+            bnHtml = `${orderAuthData.labelBn}-এর নিয়োগপত্র স্মারক নং <strong class="printWbbseMemo">${orderAuthData.memo}</strong>`;
+        }
+
+        document.querySelectorAll('.printReferenceClauseEng').forEach(el => el.innerHTML = engHtml);
+        document.querySelectorAll('.printReferenceClauseBn').forEach(el => el.innerHTML = bnHtml);
     }
 
     function getDesignationVal() {
@@ -1880,6 +1908,7 @@
         // Order Accepting Authority (President / Administrator / Secretary / Others) Updates
         const orderAuthData = getOrderAuthorityData();
         setTxt('printAdminAuthorityWithArticle', orderAuthData.label);
+        renderReferenceClauses(orderAuthData);
 
         // Dynamic HOI Report / English Order vs Bengali MC Resolution Toggle
         const engSection = document.getElementById('englishAdminOrderSection');
@@ -1943,7 +1972,6 @@
         setTxt('printSubjectName', document.getElementById('subjectName').value);
 
         setTxt('printSscMemo', document.getElementById('sscMemo').value);
-        setTxt('printWbbseMemo', document.getElementById('wbbseMemo').value);
 
         // Vacancy Formatted Text
         const vacancyFormatted = getVacancyTextFormatted();
