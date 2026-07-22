@@ -368,19 +368,19 @@
         </div>
         <div class="form-group">
             <label for="dob">Date of Birth</label>
-            <input type="date" id="dob" value="1978-10-12" onchange="calculateDOR(); updateAllForms();">
+            <input type="date" id="dob" value="1978-10-12" onchange="calculateDOR(); calculateAgeOnDoj(); updateAllForms();">
         </div>
         <div class="form-group">
             <label for="doj">Date of Joining (DOJ)</label>
-            <input type="date" id="doj" value="2021-02-24" onchange="calculateDOR(); updateAllForms();">
+            <input type="date" id="doj" value="2021-02-24" onchange="calculateDOR(); calculateAgeOnDoj(); updateAllForms();">
         </div>
         <div class="form-group">
             <label for="joiningTime">Joining Time</label>
             <input type="text" id="joiningTime" value="11:00 A.M." oninput="updateAllForms()">
         </div>
         <div class="form-group">
-            <label for="ageOnDoj">Calculated Age as on DOJ</label>
-            <input type="text" id="ageOnDoj" value="42 Y - 4 M - 12 D" oninput="updateAllForms()">
+            <label for="ageOnDoj">Calculated Age as on DOJ (Auto)</label>
+            <input type="text" id="ageOnDoj" value="42 Y - 4 M - 12 D" oninput="updateAllForms()" title="Auto-calculated from DOB & DOJ. You may still override manually.">
         </div>
 
         <!-- SCHOOL RECOGNITION & GRANT DETAILS FOR SERVICE BOOK COL 1 -->
@@ -605,9 +605,34 @@
             <label for="wbbseMemo">WBBSE Appointment Order Memo No & Date</label>
             <input type="text" id="wbbseMemo" value="WBBSE/Utsashree/BNK/GT/AT-00109 dated 20.09.2021" oninput="updateAllForms()">
         </div>
-        <div class="form-group">
-            <label for="adminOrderNo">Administrator Order / MC Resolution No & Date</label>
-            <input type="text" id="adminOrderNo" value="Administrator Order No. 209 dated 27.09.2021" oninput="updateAllForms()">
+        <div class="form-group" style="grid-column: span 2;">
+            <label for="orderAuthorityType">Appointment Accepting Authority (Order Memo Type)</label>
+            <select id="orderAuthorityType" onchange="handleOrderAuthorityChange(); updateAllForms();">
+                <option value="president">1. President - Appointment Letter Memo No & Date</option>
+                <option value="administrator" selected>2. Administrator - Appointment Letter Memo No & Date</option>
+                <option value="secretary">3. Secretary - Appointment Letter Memo No & Date</option>
+                <option value="others">4. Others (Manual Entry)</option>
+            </select>
+        </div>
+        <div class="form-group" id="presidentOrderGroup" style="display:none;">
+            <label for="presidentOrderNo">President Appointment Letter Memo No & Date</label>
+            <input type="text" id="presidentOrderNo" value="President Appointment Letter No. ___ dated __.__.____" oninput="updateAllForms()">
+        </div>
+        <div class="form-group" id="administratorOrderGroup">
+            <label for="administratorOrderNo">Administrator Appointment Letter Memo No & Date</label>
+            <input type="text" id="administratorOrderNo" value="Administrator Order No. 209 dated 27.09.2021" oninput="updateAllForms()">
+        </div>
+        <div class="form-group" id="secretaryOrderGroup" style="display:none;">
+            <label for="secretaryOrderNo">Secretary Appointment Letter Memo No & Date</label>
+            <input type="text" id="secretaryOrderNo" value="Secretary Appointment Letter No. ___ dated __.__.____" oninput="updateAllForms()">
+        </div>
+        <div class="form-group" id="othersOrderAuthorityGroup" style="display:none;">
+            <label for="othersOrderAuthorityLabel">Others - Authority Designation (Manual)</label>
+            <input type="text" id="othersOrderAuthorityLabel" value="the Secretary" oninput="updateAllForms()">
+        </div>
+        <div class="form-group" id="othersOrderGroup" style="display:none;">
+            <label for="othersOrderNo">Others - Appointment Letter Memo No & Date (Manual)</label>
+            <input type="text" id="othersOrderNo" value="Order No. ___ dated __.__.____" oninput="updateAllForms()">
         </div>
         <div class="form-group">
             <label for="diMemo">DI Approval / Prior Permission Memo No & Date</label>
@@ -1363,12 +1388,14 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         calculateDOR();
+        calculateAgeOnDoj();
         handleAppTypeChange();
         handleVacancyTypeChange();
         handleDesignationChange();
         handleAcademicGroupChange();
         handleAcademicSectionChange();
         handleMediumLangChange();
+        handleOrderAuthorityChange();
         calculateAllowances();
         loadEnclosurePreset();
         updateAllForms();
@@ -1478,6 +1505,27 @@
         group.style.display = (val === 'manual') ? 'flex' : 'none';
     }
 
+    function handleOrderAuthorityChange() {
+        const val = document.getElementById('orderAuthorityType').value;
+        document.getElementById('presidentOrderGroup').style.display = (val === 'president') ? 'flex' : 'none';
+        document.getElementById('administratorOrderGroup').style.display = (val === 'administrator') ? 'flex' : 'none';
+        document.getElementById('secretaryOrderGroup').style.display = (val === 'secretary') ? 'flex' : 'none';
+        document.getElementById('othersOrderAuthorityGroup').style.display = (val === 'others') ? 'flex' : 'none';
+        document.getElementById('othersOrderGroup').style.display = (val === 'others') ? 'flex' : 'none';
+    }
+
+    function getOrderAuthorityData() {
+        const val = document.getElementById('orderAuthorityType').value;
+        if (val === 'president') {
+            return { label: 'the President', memo: document.getElementById('presidentOrderNo').value };
+        } else if (val === 'secretary') {
+            return { label: 'the Secretary', memo: document.getElementById('secretaryOrderNo').value };
+        } else if (val === 'others') {
+            return { label: document.getElementById('othersOrderAuthorityLabel').value, memo: document.getElementById('othersOrderNo').value };
+        }
+        return { label: 'the Administrator', memo: document.getElementById('administratorOrderNo').value };
+    }
+
     function getDesignationVal() {
         const ddVal = document.getElementById('designationDD').value;
         return (ddVal === 'manual') ? document.getElementById('designationManual').value : ddVal;
@@ -1531,6 +1579,30 @@
         if (dor) {
             document.getElementById('dorOutput').innerHTML = `<strong>Date of Retirement (DOR):</strong> ${formatDate(dor)}`;
         }
+    }
+
+    function calculateAgeOnDoj() {
+        const dobVal = document.getElementById('dob').value;
+        const dojVal = document.getElementById('doj').value;
+        if (!dobVal || !dojVal) return;
+        const dob = new Date(dobVal);
+        const doj = new Date(dojVal);
+        if (isNaN(dob) || isNaN(doj) || doj < dob) return;
+
+        let years = doj.getFullYear() - dob.getFullYear();
+        let months = doj.getMonth() - dob.getMonth();
+        let days = doj.getDate() - dob.getDate();
+
+        if (days < 0) {
+            months--;
+            const prevMonthLastDay = new Date(doj.getFullYear(), doj.getMonth(), 0).getDate();
+            days += prevMonthLastDay;
+        }
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+        document.getElementById('ageOnDoj').value = `${years} Y - ${months} M - ${days} D`;
     }
 
     function formatDate(d) {
@@ -1802,10 +1874,12 @@
 
         // Administration & Identification Updates
         const adminStatusVal = document.getElementById('adminStatus').value;
-        const adminWithArticle = (adminStatusVal === 'Administrator') ? 'the Administrator' : `the ${adminStatusVal}`;
         setTxt('printHoiDesignation', document.getElementById('hoiStatus').value);
         setTxt('printAdminAuthority', adminStatusVal);
-        setTxt('printAdminAuthorityWithArticle', adminWithArticle);
+
+        // Order Accepting Authority (President / Administrator / Secretary / Others) Updates
+        const orderAuthData = getOrderAuthorityData();
+        setTxt('printAdminAuthorityWithArticle', orderAuthData.label);
 
         // Dynamic HOI Report / English Order vs Bengali MC Resolution Toggle
         const engSection = document.getElementById('englishAdminOrderSection');
@@ -1829,7 +1903,7 @@
         setTxt('printDiDistrict', document.getElementById('diDistrict').value);
         setTxt('printIosmsCode', document.getElementById('iosmsCode').value);
         setTxt('printHoiForwardingMemo', document.getElementById('hoiForwardingMemo').value);
-        setTxt('printAdminOrderNo', document.getElementById('adminOrderNo').value);
+        setTxt('printAdminOrderNo', orderAuthData.memo);
 
         // General Particulars & Auto File Cover Inputs
         const schoolNameVal = document.getElementById('schoolName').value;
